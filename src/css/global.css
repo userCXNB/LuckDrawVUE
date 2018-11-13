@@ -1,0 +1,9 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    width: 100%;
+    height: 100%;
+}
+body{position:absolute;margin:0px;padding:0px;background:#eee;width:100%;height:100%;color:#fff;font-family:arial;font-size:0.8em;}
