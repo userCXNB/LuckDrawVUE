@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import home from '@/components/home'
 import PhotoWall from '@/components/PhotoWall'
 import turntable from '@/components/turntable'
-// import circular from '@/components/circular'
+import element from '@/components/element'
+import echarts from '@/components/echarts'
 Vue.use(Router)
 
 export default new Router({
@@ -20,11 +21,14 @@ export default new Router({
       path: '/turntable',
       name: 'turntable',
       component: turntable
+    },{
+      path: '/element',
+      name: 'element',
+      component: element
+    },{
+      path: '/echarts',
+      name: 'echarts',
+      component: echarts
     }
-    // ,{
-    //   path: '/circular',
-    //   name: 'circular',
-    //   component: circular
-    // }
   ]
 })

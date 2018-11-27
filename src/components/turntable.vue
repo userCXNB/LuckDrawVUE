@@ -1,18 +1,35 @@
 <template>
   <div>
     <div class="luck-wheel">
-      <div id="luck-wheel" class="wheel" :style="rotateStyle">nihao</div>
+      <div id="myChart" class="wheel" :style="rotateStyle">nihao</div>
       <img class="control" :src="controlImg" @click="startRotate" />
     </div>
     <h1 @click="isAllowClick = false">stop</h1>
     <h1>记录转动后的角度 可大于360度 = {{deg}}</h1>
     <h1>在360度内 最后指针停下的角度 = {{rotate}}</h1>
+
+<div class="container">
+	<video controls crossorigin playsinline poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg">
+		 <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">
+			<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">
+			<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4" size="1080">
+
+			<!-- Caption files -->
+			<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
+					default>
+			<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
+			<!-- Fallback for browsers that don't support the <video> element -->
+			<a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
+	</video>
+</div>
   </div>
 </template>
  
 <script>
 import startBtn from '../assets/images/btn_start_n.png'
 import rotateBtn from '../assets/images/btn_start_s.png'
+import Plyr from "plyr";
+
 let t1 = 0
 let t2 = 0
 export default {
@@ -52,6 +69,31 @@ export default {
     }
   },
   methods: {
+        drawLine(){
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = this.$echarts.init(document.getElementById('myChart'))
+        // 绘制图表
+        myChart.setOption({
+    series : [
+        {
+            type: 'pie',
+            radius : '80%',
+            center: ['50%', '50%'],
+            selectedMode: 'single',
+            data:[
+                {
+                    value:4,
+                    name: '幽州',
+                },
+                {value:3, name: '荆州'},
+                {value:2, name: '兖州'},
+                {value:1, name: '益州'},
+                {value:1, name: '西凉'}
+            ]
+        }
+    ]
+        });
+    },
     reset() {
       t1 = 0
       t2 = 0
@@ -156,7 +198,30 @@ export default {
     }
   },
  
-  mounted() {}
+  mounted() {
+    this.drawLine();
+    // Change the second argument to your options:
+// https://github.com/sampotts/plyr/#options
+    const player = new Plyr('video', {
+      captions: {active: true},
+      controls:[
+               'play-large', //中心按钮
+                'play', //左下角按钮
+                'progress',//视频进度条
+                'current-time',//时间显隐
+                 'mute',// 静音按钮
+                'volume',//音量条
+                'captions', //字幕
+                'settings', //设置按钮
+                'pip',
+                'airplay', //在支持的设备上触发播放对话框
+                'fullscreen']       
+      });
+
+    // Expose player so it can be used from the console
+    window.player = player;
+
+  }
 }
 </script>
  
@@ -171,7 +236,7 @@ export default {
     width: 100%;
     height: 100%;
     color:red;
-    background-image: url('../assets/images/lotterydial.png');
+    // background-image: url('../assets/images/lotterydial.png');
     background-size: cover;
   }
  
@@ -182,5 +247,10 @@ export default {
     width: 200px;
     height: 200px;
   }
+
 }
+  .container {
+	margin: 50px auto;
+	max-width: 500px;
+  }
 </style>

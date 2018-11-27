@@ -2,18 +2,25 @@
   <div id="screen">
     <!-- <img src="@/assets/images/46eae50db6.jpg"> -->
     <div id="command">
-      <h1 @click="$router.go(-1)">故意的谎言</h1>
+      <h1 @click="$router.go(-1)">{{demoData.a}}</h1>
       <p>挑衅的,无情的,深思熟虑的,他们的谎言不会妨碍我。</p>
       <div id="bar"></div>
-      <div @click='LuckDraw'>抽奖</div>
+       <vue-star animate="animated bounceIn" color="#F05654">
+         <i slot="icon" class="fa fa-heart" v-on:click='LuckDraw'>抽奖</i>
+       </vue-star>
     </div>
     <div id="urlInfo"></div>
  </div>
 </template>
 
 <script>
+import VueStar from 'vue-star'
+import {mapActions,mapGetters} from "vuex";
 export default {
   name: 'PhotoWall',
+  components: {
+    VueStar
+   },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -41,10 +48,12 @@ export default {
             { src: './static/images/69833ed09a.jpg' },
 
           ],
-      Award:[]    
+      Award:[],
+      demoData:{a:'0000'}    
     }
   },
   methods:{
+      ...mapGetters(['getData']),
       LuckDraw(){
 
           var nodeList = document.querySelectorAll('.hhh')
@@ -86,6 +95,8 @@ export default {
       }
   },
   mounted(){
+       this.getData()
+       this.demoData = this.getData()
        var that = this
        var barArr
         var m3D = function () {

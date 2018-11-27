@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import { slider, slideritem } from 'vue-concise-slider'
+import { slider, slideritem } from 'vue-concise-slider';
+import {mapActions,mapState} from "vuex";
 export default {
   data () {
     return {
@@ -60,8 +61,21 @@ export default {
       slideritem
     },
     mounted () {
+      this.setState('payload11')
+      this.$axios.post('/user') //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
+        .then((res)=>{
+          console.log(res)
+          this.datalist = res.data.data
+        })
+        .catch((err)=>{
+          console.log('调用失败',err)
+        })
+
+      // this.$store.commit("SET_STATE")
+      // this.$store.dispatch("setState")
     },
      methods: {
+       ...mapActions(['setState']),
       onTap (data) {
         if(data.currentPage==0){
            this.$router.push("/PhotoWall")

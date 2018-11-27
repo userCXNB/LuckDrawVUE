@@ -1,0 +1,61 @@
+<template>
+    <div>
+            <p>组件值：{{ value13 }}</p>
+            <el-date-picker v-model="value13" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']">
+            </el-date-picker>
+            <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    </div>
+</template>
+<script>
+export default {
+    data(){
+        return{
+             value13: '',
+              data: [{
+          label: '一级 1',
+          children: [{
+            label: '二级 1-1',
+            children: [{
+              label: '三级 1-1-1'
+            }]
+          }]
+        }, {
+          label: '一级 2',
+          children: [{
+            label: '二级 2-1',
+            children: [{
+              label: '三级 2-1-1'
+            }]
+          }, {
+            label: '二级 2-2',
+            children: [{
+              label: '三级 2-2-1'
+            }]
+          }]
+        }, {
+          label: '一级 3',
+          children: [{
+            label: '二级 3-1',
+            children: [{
+              label: '三级 3-1-1'
+            }]
+          }, {
+            label: '二级 3-2',
+            children: [{
+              label: '三级 3-2-1'
+            }]
+          }]
+        }],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        }
+        }
+    },
+     methods:{
+      handleNodeClick(data) {
+        console.log(data);
+      }
+    }
+}
+</script>
