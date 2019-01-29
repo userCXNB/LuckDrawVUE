@@ -11,8 +11,14 @@ import animated from 'animate.css' // npm install animate.css --save安装，在
 import echarts from 'echarts'
 import store from './store';
 import axios from "axios";
+import "xlsx/dist/xlsx.core.min.js";
 import './mock/index'
 
+//富文本编译器
+import'../static/Ueditor/ueditor.config.js'
+import'../static/Ueditor/ueditor.all.min.js'
+import'../static/Ueditor/lang/zh-cn/zh-cn.js'
+import'../static/Ueditor/ueditor.parse.min.js'
 //全局注册
 Vue.prototype.$echarts = echarts 
 Vue.prototype.$axios = axios 

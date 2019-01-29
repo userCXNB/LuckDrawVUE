@@ -5,14 +5,15 @@ import PhotoWall from '@/components/PhotoWall'
 import turntable from '@/components/turntable'
 import element from '@/components/element'
 import echarts from '@/components/echarts'
+import awesome from '@/components/awesome'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: home
+      name: 'PhotoWall',
+      component: PhotoWall
     },{
       path: '/PhotoWall',
       name: 'PhotoWall',
@@ -29,6 +30,10 @@ export default new Router({
       path: '/echarts',
       name: 'echarts',
       component: echarts
+    },{
+      path: '/awesome',
+      name: 'awesome',
+      component: awesome
     }
   ]
 })
