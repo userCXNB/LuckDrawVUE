@@ -12,8 +12,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'PhotoWall',
-      component: PhotoWall
+      name: 'home',
+      component: home
     },{
       path: '/PhotoWall',
       name: 'PhotoWall',

@@ -15,6 +15,7 @@
 <script>
 import { slider, slideritem } from 'vue-concise-slider';
 import {mapActions,mapState} from "vuex";
+import qs from 'qs';
 export default {
   data () {
     return {
@@ -61,15 +62,60 @@ export default {
       slideritem
     },
     mounted () {
-      this.setState('payload11')
-      this.$axios.post('/user') //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
+      console.log()
+      var arrCookie = document.cookie.split(';')
+      var csrftoken = ''
+      for (var i = 0; i < arrCookie.length; i++) {
+        var arr = arrCookie[i].split("=");
+        if (arr[0] == "csrftoken") csrftoken =arr[1];
+     }
+      // this.setState('payload11')
+      var _that = this
+      var arr = {username:'0000115_adm',pwdInput:_that.$md5('123456'),verCode:''}
+      this.$axios.post('/api/',{},
+      {headers: {'X-CSRFToken': csrftoken}}
+      ) //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
         .then((res)=>{
           console.log(res)
+
+      this.$axios.post('/api/show_code_user_name/', qs.stringify({username:'0000115_adm'}),
+                    {headers: {'X-CSRFToken': csrftoken,'Content-Type':'application/x-www-form-urlencoded;','Accept':'*/*'}
+                    }
+      ) //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
+        .then((res)=>{
+          console.log(res)
+
+
+
+                  _that.$axios.post('/api/admin_login/',
+                    qs.stringify(arr),
+                    {headers: {'X-CSRFToken': csrftoken,'Content-Type':'application/x-www-form-urlencoded;','Accept':'*/*'}}
+                    ) //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
+                      .then((res)=>{
+                        console.log(res)
+                        this.datalist = res.data.data
+                      })
+                      .catch((err)=>{
+                        console.log('调用失败',err)
+                      })
+
+               })
+
+
+
+
+
+
+
+
+
           this.datalist = res.data.data
         })
         .catch((err)=>{
           console.log('调用失败',err)
         })
+
+
 
       // this.$store.commit("SET_STATE")
       // this.$store.dispatch("setState")

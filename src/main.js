@@ -13,6 +13,7 @@ import store from './store';
 import axios from "axios";
 import "xlsx/dist/xlsx.core.min.js";
 import './mock/index'
+import md5 from 'js-md5';
 
 //富文本编译器
 import'../static/Ueditor/ueditor.config.js'
@@ -22,6 +23,7 @@ import'../static/Ueditor/ueditor.parse.min.js'
 //全局注册
 Vue.prototype.$echarts = echarts 
 Vue.prototype.$axios = axios 
+Vue.prototype.$md5 = md5;
 Vue.use(animated)
 
 
