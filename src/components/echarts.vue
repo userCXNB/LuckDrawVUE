@@ -1,36 +1,23 @@
 <template>
-    <div id="myChart" :style="{width: '900px', height: '900px'}"></div>
+    <div class="myChart" :style="{width: '300px', height: '300px'}"></div>
 </template>
 <script>
 export default {
+  props:{
+      setOption:Object,
+      num:String
+  },
   mounted(){
+      console.log(this)
     this.drawLine();
   },
   methods: {
     drawLine(){
         // 基于准备好的dom，初始化echarts实例
-        let myChart = this.$echarts.init(document.getElementById('myChart'))
+        let _that = this
+        let myChart = this.$echarts.init(document.getElementsByClassName('myChart')[_that.num])
         // 绘制图表
-        myChart.setOption({
-    series : [
-        {
-            type: 'pie',
-            radius : '80%',
-            center: ['50%', '50%'],
-            selectedMode: 'single',
-            data:[
-                {
-                    value:4,
-                    name: '幽州',
-                },
-                {value:3, name: '荆州'},
-                {value:2, name: '兖州'},
-                {value:1, name: '益州'},
-                {value:1, name: '西凉'}
-            ]
-        }
-    ]
-        });
+        myChart.setOption(this.setOption);
     }
   }
 }

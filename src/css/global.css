@@ -1,9 +1,12 @@
-*{
-    margin: 0;
-    padding: 0;
-}
-html{
-    width: 100%;
-    height: 100%;
-}
-body{position:absolute;margin:0px;padding:0px;background:#eee;width:100%;height:100%;color:#fff;font-family:arial;font-size:0.8em;}
+
+body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select,td,figure{margin:0;padding:0;}
+body{font:16px  "宋体"; word-wrap:break-word;}
+a,u,s,del{color:#666;text-decoration:none} 
+fieldset ,a img,.bor0 {border:0;}
+mark{background:none;}
+i,em,b,th{font-style:normal;font-weight:100;}
+li{list-style:none;}
+img{vertical-align:middle;}
+table{border-collapse:collapse;}/*合并表格边框（细线边框）*/
+input,textarea{outline:none;}
+textarea{resize:none;}

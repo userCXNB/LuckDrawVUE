@@ -1,14 +1,12 @@
 <template>
   <div class="height">
-        <div class="top">
-           <p v-html="msg"></p>
-        </div>
-        <slider ref="slider" :options="options" @tap='onTap' style="height:100%;">
+
+        <!-- <slider ref="slider" :options="options" @tap='onTap' style="height:100%;"> -->
           <!-- 直接使用slideritem slot -->
-           <slideritem v-for="(item,index) in someList" :key="index" :style="item.style">{{item.html}}</slideritem>
+           <!-- <slideritem v-for="(item,index) in someList" :key="index" :style="item.style">{{item.html}}</slideritem> -->
           <!-- 设置loading,可自定义 -->
-          <div slot="loading">loading...</div>
-      </slider>
+          <!-- <div slot="loading">loading...</div> -->
+      <!-- </slider> -->
   </div>    
 </template>
 
@@ -62,13 +60,14 @@ export default {
       slideritem
     },
     mounted () {
-      console.log()
+      console.log(arrCookie)
       var arrCookie = document.cookie.split(';')
+      
       var csrftoken = ''
       for (var i = 0; i < arrCookie.length; i++) {
         var arr = arrCookie[i].split("=");
         if (arr[0] == "csrftoken") csrftoken =arr[1];
-     }
+      }
       // this.setState('payload11')
       var _that = this
       var arr = {username:'0000115_adm',pwdInput:_that.$md5('123456'),verCode:''}
@@ -141,9 +140,7 @@ export default {
         .height{
           height:100%;
         }
-        .top{
-         height:100%;background:url(../assets/images/home.gif) no-repeat center;background-size:cover;overflow:hidden;
-        }
+
         .top>p{
           height:100%;
           text-align:center;
