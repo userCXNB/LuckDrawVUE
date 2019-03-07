@@ -2,10 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/components/home'
 import turntable from '@/components/turntable'
-import element from '@/components/element'
 import echarts from '@/components/echarts'
 import awesome from '@/components/awesome'
 import main from '@/components/main'
+import tab from '@/components/tab'
+import detail from '@/components/detail'
+import listSon from '@/components/listSon'
 Vue.use(Router)
 
 export default new Router({
@@ -19,13 +21,25 @@ export default new Router({
       name: 'turntable',
       component: turntable
     },{
+      path: '/home',
+      name: 'home',
+      component: home
+    },{
+      path: '/listSon',
+      name: 'listSon',
+      component: listSon
+    },{
+      path: '/tab',
+      name: 'tab',
+      component: tab
+    },{
+      path: '/detail',
+      name: 'detail',
+      component: detail
+    },{
       path: '/main',
       name: 'main',
       component: main
-    },{
-      path: '/element',
-      name: 'element',
-      component: element
     },{
       path: '/echarts',
       name: 'echarts',

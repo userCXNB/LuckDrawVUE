@@ -1,21 +1,30 @@
 <template>
-  <div class="set-main">
-      <div style='width:300px;height:300px;background:gray;'>
-        <echarts :setOption='setOption0' :num='"0"'/>
-      </div>
-      <div style='width:300px;height:300px;background:gray;'>
-        <echarts :setOption='setOption1' :num='"1"'/>
-      </div>
-      <div style='width:300px;height:300px;background:gray;'>
-        <echarts :setOption='setOption2' :num='"2"'/>
-      </div>
-      <div style='width:300px;height:300px;background:gray;'>
-        <echarts :setOption='setOption3' :num='"3"'/>
-      </div>
-      <div style='width:300px;height:300px;background:gray;'>
-        <echarts :setOption='setOption4' :num='"4"'/>
-      </div>
+  <div>
+         <p>Similar Datasets</p>
+         <div class="set-main">
+            <div class="set_echarts">
+                <div class="echarts_title">Singapore Residents By Ethnic Group, End June, Annual (2018)</div>
+                <echarts :setOption='setOption0' :num='"0"'/>
+            </div>
+            <div class="set_echarts">
+                <div class="echarts_title">Singapore Residents By Ethnic Group, End June, Annual (2018)</div>
+                <echarts :setOption='setOption1' :num='"1"'/>
+            </div>
+            <div class="set_echarts">
+                <div class="echarts_title">Singapore Residents By Ethnic Group, End June, Annual (2018)</div>
+                <echarts :setOption='setOption2' :num='"2"'/>
+            </div>
+            <div class="set_echarts">
+                <div class="echarts_title">Singapore Residents By Ethnic Group, End June, Annual (2018)</div>
+                <echarts :setOption='setOption3' :num='"3"'/>
+            </div>
+            <div class="set_echarts">
+                <div class="echarts_title">Singapore Residents By Ethnic Group, End June, Annual (2018)</div>
+                <echarts :setOption='setOption4' :num='"4"'/>
+            </div>
+         </div>
   </div>
+
 </template>
  
 <script>
@@ -221,26 +230,38 @@ export default {
     }
   },
   watch: {
-    endrotate(val) {
-      if (val == 0) {
-        this.reset()
-      }
-    }
+
   },
   methods: {
-    startRotate() {
-    }
   },
- 
   mounted() {
+      this.$store.dispatch('setSwitchStatus',true)
   }
 }
 </script>
  
 <style lang="less" scoped>
+    p{
+      font-size: 20px;
+      line-height: 56px;
+      margin-top: 56px;
+    }
 .set-main{
     display:flex;
     flex-wrap:wrap;
-    justify-content:space-around;
+    justify-content:space-between;
+
+    .set_echarts{
+       font-size:12px;
+       line-height: 20px;
+       width:320px;height:320px;background:#fff;
+       padding:10px;
+       padding-top:34px;
+       margin-bottom: 20px;
+       .echarts_title{
+           height:40px;
+       }
+    }
+
 }
 </style>

@@ -13,45 +13,30 @@
                 <li>www3</li>
               </ul>
           </nav>
-          <section class="set-section">
-                 <dd style="font-size:44px;">Transport</dd>
-                  <div style="margin-top: 15px;">
-                    <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
-                      <el-button slot="append" icon="el-icon-search"></el-button>
+          <section class="set-section" v-show="switchStatus" style="background:url(./static/images/banner.jpg)">
+                 <dd style="font-size:44px;line-height:70px;margin-top: 84px;">Transport</dd>
+                  <div style="margin-bottom:22px;">
+                    <el-input placeholder="请输入内容"  class="input-with-select" style="width:500px;">
+                      <el-button slot="append" icon="el-icon-search" style="height:54px;"></el-button>
                     </el-input>
                   </div>
-
-                  <el-button  type="primary">view All Datasets</el-button>
+                  <div>
+                         <el-button  type="primary" style="width:175px;" @click="switchBtn">view All Datasets</el-button>
+                  </div>
 
           </section>
           <el-menu
+            v-if="switchStatus"
             :default-active="activeIndex"
-            class="el-menu-demo"
+            class="el-menu-demo M_top_350"
             mode="horizontal"
             @select="handleSelect"
-            background-color="#545c64"
-            text-color="#fff"
+            background-color="#f5f5f5"
+            text-color="#113355"
             active-text-color="#ffd04b">
-            <el-menu-item index="1">处理中心</el-menu-item>
-            <el-submenu index="2">
-              <template slot="title">我的工作台</template>
-              <el-menu-item index="2-1">选项1</el-menu-item>
-              <el-menu-item index="2-2">选项2</el-menu-item>
-              <el-menu-item index="2-3">选项3</el-menu-item>
-              <el-submenu index="2-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="2-4-1">选项1</el-menu-item>
-                <el-menu-item index="2-4-2">选项2</el-menu-item>
-                <el-menu-item index="2-4-3">选项3</el-menu-item>
-              </el-submenu>
-            </el-submenu>
-            <el-menu-item index="3" disabled>消息中心</el-menu-item>
-            <el-menu-item index="4">订单管理</el-menu-item>
+            <el-menu-item v-for="item in menuList" >{{item}}</el-menu-item>
           </el-menu>
-
           <router-view/>
-
-
         </div>
 
       </div>
@@ -81,39 +66,57 @@
 
 </template>
 <script>
+import {mapActions,mapState,mapGetters} from "vuex";
 export default {
   name: 'App',
     data () {
     return {
         activeIndex: '1',
+        menuList:['处理中心','我的工作台','消息中心','订单管理']
     }
   },
+  computed: {
+            ...mapState([
+                'switchStatus'
+            ]),
+        }, 
   methods: {
+      ...mapActions(['setSwitchStatus']),
+      ...mapGetters(['getSwitchStatus']),
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
-      }
+      },
+      menuOpt(){
+          
+      },
+      switchBtn(){
+          this.setSwitchStatus()
+          this.$router.push({  //核心语句
+                path:'/home'
+                })
     }
+  },
+  mounted(){
+  } 
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
   
   #app{
     
     display:flex;
     justify-content:center;
     .core{
-      background: red;
        width:1050px;
     }
   }
   .set-nav{
     height:47px;
-    background: gray;
-    // margin-bottom: 350px;
     .set-logo{
        float:left;
        display:flex;
        align-items: center;
+       margin-right: 14px;
        height:47px;      
     }
     .set-title{
@@ -132,26 +135,32 @@ export default {
   }
   .set-section{
     width: 100%;
-    background:url(./assets/images/banner.jpg);
+    background:red;
     position:absolute;
+    display:flex;
+    flex-direction:column;
     left:0;
     top:47px;
     right:0;
     margin:0 auto;
     height:350px;
+    text-align:center;
 
   }
-  .el-menu-demo{
-    margin-top:350px;
+  .el-input__inner {
+              height: 54px!important;
+              }
+  .M_top_350{
+    margin-top:350px!important;
   }
   .set-footer{
     display:flex;
     justify-content: center;
     background:#113355;
+    color:#fff;
     .footer-main{
       height:340px;
       padding-top:33px;
-      background: red;
        width:1050px;
        .firstul{
          float:left;

@@ -1,65 +1,118 @@
 <template>
-  <div class="height">
+  <div class="set_home">
+      <div class="set_home_left">
+        <div class="set_home_left_title">Topics</div>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
+        <div class="set_home_left_title">Topics</div>
+        <el-dropdown style="width:300px;">
+          <el-button type="primary" style="width:300px;background:#fff;color:#113355;">
+            更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown" style="width:300px;">
+            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>狮子头</el-dropdown-item>
+            <el-dropdown-item>螺蛳粉</el-dropdown-item>
+            <el-dropdown-item>双皮奶</el-dropdown-item>
+            <el-dropdown-item>蚵仔煎</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <div class="set_home_left_title">Topics</div>
+        <el-dropdown style="width:300px;">
+          <el-button type="primary" style="width:300px;background:#fff;color:#113355;">
+            更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown" style="width:300px;">
+            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>狮子头</el-dropdown-item>
+            <el-dropdown-item>螺蛳粉</el-dropdown-item>
+            <el-dropdown-item>双皮奶</el-dropdown-item>
+            <el-dropdown-item>蚵仔煎</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+      <div class="set_home_right">
+           <el-button type="primary" style="float:right;margin:50px 0 10px;background:#fff;color:#113355;">下载<i class="el-icon-download el-icon--right"></i></el-button>
+            <div>
+              <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
+                <el-button slot="append" icon="el-icon-search"></el-button>
+              </el-input>
+            </div>
+            <dl>
+              <dt>
+                 1690 datasets found
+              </dt>
+              <dd>
+                sort by:
+                        <el-dropdown>
+                          <el-button type="primary" style="background:#fff;color:#113355;">
+                            更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                          </el-button>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>黄金糕</el-dropdown-item>
+                            <el-dropdown-item>狮子头</el-dropdown-item>
+                            <el-dropdown-item>螺蛳粉</el-dropdown-item>
+                            <el-dropdown-item>双皮奶</el-dropdown-item>
+                            <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                          </el-dropdown-menu>
+                        </el-dropdown>
+              </dd>
+            </dl>
+            <ul class="set-content">
+                <listSon/>
+                <listSon/>
+                <listSon/>
+                <listSon/>
+                <listSon/>
 
-        <!-- <slider ref="slider" :options="options" @tap='onTap' style="height:100%;"> -->
-          <!-- 直接使用slideritem slot -->
-           <!-- <slideritem v-for="(item,index) in someList" :key="index" :style="item.style">{{item.html}}</slideritem> -->
-          <!-- 设置loading,可自定义 -->
-          <!-- <div slot="loading">loading...</div> -->
-      <!-- </slider> -->
+            </ul>
+            <el-pagination
+              style="text-align:center;margin:22px 0 75px;"
+              background
+              layout="prev, pager, next"
+              :total="1000">
+            </el-pagination>
+      </div>
   </div>    
 </template>
 
 <script>
+import listSon from '@/components/listSon'
 import { slider, slideritem } from 'vue-concise-slider';
 import {mapActions,mapState} from "vuex";
 import qs from 'qs';
 export default {
   data () {
     return {
-      msg: '抽奖系统',
-      someList:[{
-            html: 'slide1',
-            style: {
-              'background':"url(./static/images/46eae50db6.jpg)",
-              'background-size':'cover'
-            }
-          },
-          {
-            html: 'slide2',
-            style: {
-              'background':"url('./static/images/ed57bce8c4.jpg')",
-              'background-size':'cover'
-            }
-          },
-          {
-            html: 'slide3',
-            style: {
-              'background':'url(./static/images/1ef7ea6559.jpg)',
-              'background-size':'cover'
-            }
-          }],
-        //Sliding configuration [obj]
-        options: {
-          currentPage: 0,
-          thresholdDistance:500,
-          thresholdTime:1000,
-          autoplay:3000,
-          loop:true,
-          direction:'vertical',
-          loopedSlides:1,
-          slidesToScroll:1,
-          timingFunction: 'ease',
-          speed: 300,
-          effect:'fade'
-        } 
     }
   },
-      components: {
+      components:{
       slider,
-      slideritem
+      slideritem,
+      listSon
     },
     mounted () {
+      // api/3/action/package_search
+
+       console.log(this)
+
+        this.$axios.post('/api/api/3/action/package_search')
+                .then((res)=>{
+                  console.log(res,135)
+       })
+
+
+
+
+
+               
+
+
       console.log(arrCookie)
       var arrCookie = document.cookie.split(';')
       
@@ -83,8 +136,6 @@ export default {
       ) //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
         .then((res)=>{
           console.log(res)
-
-
 
                   _that.$axios.post('/api/admin_login/',
                     qs.stringify(arr),
@@ -133,12 +184,51 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
         #app{
           height:100%;
         }
-        .height{
-          height:100%;
+        .set_home{
+         display:flex;
+         justify-content:space-between;
+              .set_home_left{
+                 margin-top:159px;
+                 width: 300px;
+                 .set_home_left_title{
+                    font-size:20px;
+                    line-height:62px;
+                 }
+              }
+              .set_home_right{
+                 width:720px;
+                 dl{
+                   height:68px;
+                   display:flex;
+                   justify-content:space-between;
+                    font-size:24px;
+                    line-height:68px;
+                 }
+                 .set-content{
+
+                   
+                   li{
+                      background:#fff;
+                      margin-bottom:2px;
+                      padding:20px 45px 16px 23px;
+                      div{
+                        font-size:12px;
+                        line-height: 24px;
+                      }
+                      .title{
+                          font-size:20px;
+                          line-height:32px;
+                      }
+                      img{
+                        margin:7px 0 7px;
+                      }
+                   }
+                 }
+              }
         }
 
         .top>p{

@@ -1,5 +1,5 @@
 <template>
-    <div class="myChart" :style="{width: '300px', height: '300px'}"></div>
+    <div class="myChart" :style="{width: '320px', height: '280px'}"></div>
 </template>
 <script>
 export default {
