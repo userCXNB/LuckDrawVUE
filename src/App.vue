@@ -4,17 +4,17 @@
          <div class="core" style="margin-bottom:1px;">
            <nav class="set-nav">        
               <a href="https://data.gov.sg/" class="set-logo">
-                <img src="./assets/images/logo.jpg" alt="Data.gov.sg" title="Data.gov.sg">
+                <img src="./assets/images/logo.png" style="width:150px;height:47px;" alt="Data.gov.sg" title="Data.gov.sg">
               </a>
-              <a href="https://data.gov.sg/" class="set-title">Data.gov.sg</a>
               <ul>
                 <li>www1</li>
                 <li>www2</li>
                 <li>www3</li>
               </ul>
           </nav>
-          <section class="set-section" v-show="switchStatus" style="background:url(./static/images/banner.jpg)">
-                 <dd style="font-size:44px;line-height:70px;margin-top: 84px;">Transport</dd>
+          <!-- <section class="set-section" v-show="switchStatus"> -->
+          <section class="set-section" v-show="switchStatus" :style="'background:url('+cssSRC[activeIndex]+')'">
+                 <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 84px;text-shadow:5px 2px 6px #000;">{{menuList[activeIndex].name}}</dd>
                   <div style="margin-bottom:22px;">
                     <el-input placeholder="请输入内容"  class="input-with-select" style="width:500px;">
                       <el-button slot="append" icon="el-icon-search" style="height:54px;"></el-button>
@@ -34,7 +34,8 @@
             background-color="#f5f5f5"
             text-color="#113355"
             active-text-color="#ffd04b">
-            <el-menu-item v-for="item in menuList" >{{item}}</el-menu-item>
+            <el-menu-item v-for="(item,index) in menuList" :key="index" :index="index" style="text-align:center;"><span :class="'iconfont icon-'+item.icon" style="top:-27px;left:16px;position:relative;font-size:27px;line-height: 99px;
+}"></span><span style="position:relative;left:-12px;">{{item.name}}</span></el-menu-item>
           </el-menu>
           <router-view/>
         </div>
@@ -71,8 +72,19 @@ export default {
   name: 'App',
     data () {
     return {
-        activeIndex: '1',
-        menuList:['处理中心','我的工作台','消息中心','订单管理']
+        activeIndex:0,
+        cssSRC:[require("./assets/images/banner.jpg"),require("./assets/images/banner1.jpg")],
+        menuList:[
+          {name:"经济",icon:"jingji"},
+          {name:"环境",icon:"huanjing"},
+          {name:"教育",icon:"education_icon"},
+          {name:"就业",icon:"jiuyechuangye"},
+          {name:"交通",icon:"traffic"},
+          {name:"安全",icon:"anquan"},
+          {name:"文化",icon:"wenhuachuanmei"},
+          {name:"卫生",icon:"huanjing"},
+          {name:"市场监控",icon:"zhongxinhuanjing"}
+        ]
     }
   },
   computed: {
@@ -85,6 +97,7 @@ export default {
       ...mapGetters(['getSwitchStatus']),
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+        this.activeIndex = key
       },
       menuOpt(){
           
@@ -135,7 +148,7 @@ export default {
   }
   .set-section{
     width: 100%;
-    background:red;
+    background:url(./assets/images/banner.jpg);
     position:absolute;
     display:flex;
     flex-direction:column;

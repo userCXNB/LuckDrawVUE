@@ -1,14 +1,15 @@
 <template>
     <li class="list" @click="toDetail">
-          <div class="title">CEA Salesperson Information</div>
-          <div>Council For Estate Agencies / 06 Mar 2019</div>
-          <div>Listing of 'Active' salesperson that is currently registered under CEA. Data is updated 3 times a day.</div>
+          <div class="title" v-text="data.resources[0].name"></div>
+          <div>{{data.organization.title}} / {{data.resources[0].last_modified}}</div>
+          <div v-text='data.resources[0].description'></div>
           <img src="../assets/images/csv.jpg" alt="">
     </li>
 </template>
  
 <script>
 export default {
+  props:['data'],
   data() {
    return {
         }
@@ -24,6 +25,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.data.resources)
   }
 }
 </script>

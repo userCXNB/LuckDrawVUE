@@ -2,13 +2,15 @@
   <div class="set_home">
       <div class="set_home_left">
         <div class="set_home_left_title">Topics</div>
-        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
-        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
-        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
-        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
-        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
-        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
-        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'>朴素按钮</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-jingji"></span>经济</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-huanjing"></span>环境</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-education_icon"></span>教育</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-jiuyechuangye"></span>就业</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-traffic"></span>交通</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-anquan"></span>安全</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-wenhuachuanmei"></span>文化</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-huanjing"></span>卫生</el-button>
+        <el-button plain type="info" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;'><span style="margin-right:6px;" class="iconfont icon-zhongxinhuanjing"></span>市场监管</el-button>
         <div class="set_home_left_title">Topics</div>
         <el-dropdown style="width:300px;">
           <el-button type="primary" style="width:300px;background:#fff;color:#113355;">
@@ -64,12 +66,7 @@
               </dd>
             </dl>
             <ul class="set-content">
-                <listSon/>
-                <listSon/>
-                <listSon/>
-                <listSon/>
-                <listSon/>
-
+                <listSon v-for="(item,index) in datalist" :key='index' :data="item"/>
             </ul>
             <el-pagination
               style="text-align:center;margin:22px 0 75px;"
@@ -89,6 +86,7 @@ import qs from 'qs';
 export default {
   data () {
     return {
+      datalist:[]
     }
   },
       components:{
@@ -100,10 +98,12 @@ export default {
       // api/3/action/package_search
 
        console.log(this)
-
         this.$axios.post('/api/api/3/action/package_search')
                 .then((res)=>{
-                  console.log(res,135)
+                  if(res.status == 200){
+                        this.datalist = res.data.result.results
+                  }
+                  
        })
 
 
