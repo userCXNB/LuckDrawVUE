@@ -8,6 +8,10 @@ import main from '@/components/main'
 import tab from '@/components/tab'
 import detail from '@/components/detail'
 import listSon from '@/components/listSon'
+import contentSon from '@/components/contentSon'
+import content from '@/components/content'
+import content1 from '@/components/content1'
+import InformationSon from '@/components/InformationSon'
 Vue.use(Router)
 
 export default new Router({
@@ -16,6 +20,22 @@ export default new Router({
       path: '/',
       name: 'main',
       component: main,
+    },{
+      path: '/contentSon',
+      name: 'contentSon',
+      component: contentSon
+    },{
+      path: '/content',
+      name: 'content',
+      component: content
+    },{
+      path: '/content1',
+      name: 'content1',
+      component: content1
+    },{
+      path: '/InformationSon',
+      name: 'InformationSon',
+      component: InformationSon
     },{
       path: '/turntable',
       name: 'turntable',

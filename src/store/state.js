@@ -1,6 +1,6 @@
 let state = {
     demoData:{'a':''},
-    switchStatus:true
+    switchStatus:{banner:true,menu:true}
 }
 
 export default state;

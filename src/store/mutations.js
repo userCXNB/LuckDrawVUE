@@ -8,9 +8,10 @@ let mutations = {
     [types.SET_SWITCH_STATUS]:(state,payload)=>{
        //解决banner导航现隐
        if(payload){
-        state.switchStatus = payload
+        state.switchStatus.banner = payload.banner
+        state.switchStatus.menu = payload.menu
        }else{
-        state.switchStatus = !state.switchStatus
+        state.switchStatus.banner = !state.switchStatus.banner
        }
     }
 

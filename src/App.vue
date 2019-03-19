@@ -1,37 +1,39 @@
 <template>
   <div>
+      <nav class="set-nav">        
+          <a href="https://data.gov.sg/" class="set-logo">
+            <img src="./assets/images/logo.png" style="width:150px;height:47px;" alt="Data.gov.sg" title="Data.gov.sg">
+          </a>
+          <p>www.dataopen.com</p>
+          <ul>
+            <li>登录/注册</li>
+            <li>联系我们</li>
+          </ul>
+      </nav>
       <div id="app">
          <div class="core" style="margin-bottom:1px;">
-           <nav class="set-nav">        
-              <a href="https://data.gov.sg/" class="set-logo">
-                <img src="./assets/images/logo.png" style="width:150px;height:47px;" alt="Data.gov.sg" title="Data.gov.sg">
-              </a>
-              <ul>
-                <li>www1</li>
-                <li>www2</li>
-                <li>www3</li>
-              </ul>
-          </nav>
-          <!-- <section class="set-section" v-show="switchStatus"> -->
-          <section class="set-section" v-show="switchStatus" :style="'background:url('+cssSRC[activeIndex]+')'">
-                 <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 84px;text-shadow:5px 2px 6px #000;">{{menuList[activeIndex].name}}</dd>
-                  <div style="margin-bottom:22px;">
+
+          <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]+')'">
+                 <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 240px;text-shadow:5px 2px 6px #000;">{{menuList[activeIndex].name}}</dd>
+                  <div style="margin-bottom:30px;">
                     <el-input placeholder="请输入内容"  class="input-with-select" style="width:500px;">
                       <el-button slot="append" icon="el-icon-search" style="height:54px;"></el-button>
                     </el-input>
                   </div>
                   <div>
-                         <el-button  type="primary" style="width:175px;" @click="switchBtn">view All Datasets</el-button>
+                         <el-button  type="primary" style="width:175px;" @click="switchBtn">浏览所有数据信息</el-button>
                   </div>
-
+                  <div style="height:32px;width:1180px;align-self:center;background:#fff;margin-top:255px;">
+                     <div style="background:#83e2cc;border-top:2px solid #48ba89;height:14px;margin-top:0;"></div>
+                  </div>
           </section>
           <el-menu
-            v-if="switchStatus"
+            v-if="switchStatus.menu"
             :default-active="activeIndex"
-            class="el-menu-demo M_top_350"
+            :class="[el-menu-demo,switchStatus.banner? 'M_top_350':'']"
             mode="horizontal"
             @select="handleSelect"
-            background-color="#f5f5f5"
+            background-color="#fff"
             text-color="#113355"
             active-text-color="#ffd04b">
             <el-menu-item v-for="(item,index) in menuList" :key="index" :index="index" style="text-align:center;"><span :class="'iconfont icon-'+item.icon" style="top:-27px;left:16px;position:relative;font-size:27px;line-height: 99px;
@@ -43,24 +45,9 @@
       </div>
         <footer class="set-footer">
             <div class="footer-main">
-                <ul class="firstul">
-                  <li class="firstli">asdfasdf</li>
-                  <li>asdfasdf</li>
-                  <li>asdfasdf</li>
-                  <li>asdfasdf</li>
-                </ul>
-                <ul>
-                  <li class="firstli">asdfasdf</li>
-                  <li>asdfasdf</li>
-                  <li>asdfasdf</li>
-                  <li>asdfasdf</li>
-                </ul>                 
-                <ul>
-                  <li class="firstli">asdfasdf</li>
-                  <li>asdfasdf</li>
-                  <li>asdfasdf</li>
-                  <li>asdfasdf</li>
-                </ul>
+               <div>
+                  <p style="font-size:10px;line-height:12px;margin:7px 12px;"> © 上海数据交易中心有限公司  地址:上海市静安区万荣路1268号A座3层<br/>沪ICP备17003045号</p>
+               </div>
             </div>
         </footer>
   </div>
@@ -73,17 +60,17 @@ export default {
     data () {
     return {
         activeIndex:0,
-        cssSRC:[require("./assets/images/banner.jpg"),require("./assets/images/banner1.jpg")],
+        cssSRC:[require("./assets/images/banner.png"),require("./assets/images/banner1.jpg")],
         menuList:[
-          {name:"经济",icon:"jingji"},
-          {name:"环境",icon:"huanjing"},
-          {name:"教育",icon:"education_icon"},
-          {name:"就业",icon:"jiuyechuangye"},
-          {name:"交通",icon:"traffic"},
-          {name:"安全",icon:"anquan"},
-          {name:"文化",icon:"wenhuachuanmei"},
-          {name:"卫生",icon:"huanjing"},
-          {name:"市场监控",icon:"zhongxinhuanjing"}
+          {Ename:"",name:"经济",icon:"jingji"},
+          {Ename:"",name:"环境",icon:"huanjing"},
+          {Ename:"",name:"教育",icon:"education_icon"},
+          {Ename:"",name:"就业",icon:"jiuyechuangye"},
+          {Ename:"",name:"交通",icon:"traffic"},
+          {Ename:"",name:"安全",icon:"anquan"},
+          {Ename:"",name:"文化",icon:"wenhuachuanmei"},
+          {Ename:"",name:"卫生",icon:"huanjing"},
+          {Ename:"",name:"市场监控",icon:"zhongxinhuanjing"}
         ]
     }
   },
@@ -103,13 +90,14 @@ export default {
           
       },
       switchBtn(){
-          this.setSwitchStatus()
+          this.setSwitchStatus({banner:false,menu:false})
           this.$router.push({  //核心语句
                 path:'/home'
                 })
     }
   },
   mounted(){
+    console.log(this.setSwitchStatus)
   } 
 }
 </script>
@@ -119,18 +107,29 @@ export default {
     
     display:flex;
     justify-content:center;
+    margin-bottom:66px;
     .core{
-       width:1050px;
+       width:1180px;
+       background: #fff;
     }
   }
   .set-nav{
     height:47px;
+    position: relative;
+    padding:0 40px;
     .set-logo{
        float:left;
        display:flex;
        align-items: center;
        margin-right: 14px;
        height:47px;      
+    }
+    p{
+      height:47px;
+      line-height:47px;
+      width:300px;
+      position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;
+      text-align:center;
     }
     .set-title{
       float:left;
@@ -148,7 +147,7 @@ export default {
   }
   .set-section{
     width: 100%;
-    background:url(./assets/images/banner.jpg);
+    background:darkcyan;
     position:absolute;
     display:flex;
     flex-direction:column;
@@ -156,41 +155,32 @@ export default {
     top:47px;
     right:0;
     margin:0 auto;
-    height:350px;
+    height:720px;
     text-align:center;
 
   }
   .el-input__inner {
-              height: 54px!important;
+   height: 54px!important;
               }
   .M_top_350{
-    margin-top:350px!important;
+    margin-top:720px!important;
+  }
+  .el-menu{
+    display: flex;
+    justify-content: space-around;
   }
   .set-footer{
-    display:flex;
-    justify-content: center;
-    background:#113355;
+    background:#fff;
+    height:106px;
     color:#fff;
     .footer-main{
-      height:340px;
-      padding-top:33px;
-       width:1050px;
-       .firstul{
-         float:left;
-       }
-       ul{
-         float:right;
-         font-size:12px;
-         line-height:24px;
-         margin-right:60px;
-         li{
-           margin:12px 0;
-         }
-       }
-      .firstli{
-        font-size: 20px;
-
-      }
+      height:36px;
+      background:#42e2c8;
+           display:flex;
+     justify-content:center;
+      div{
+     width:1180px;
+     }
     }
   }
 </style>

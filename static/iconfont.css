@@ -14,6 +14,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-iconset0401:before {
+  content: "\e718";
+}
 
 .icon-zhongxinhuanjing:before {
   content: "\e64a";

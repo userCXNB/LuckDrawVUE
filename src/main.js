@@ -14,13 +14,15 @@ import axios from "axios";
 import "xlsx/dist/xlsx.core.min.js";
 import './mock/index'
 import md5 from 'js-md5';
+import infiniteScroll from 'vue-infinite-scroll'//下拉加载数据
+
 
 //全局注册
 Vue.prototype.$echarts = echarts 
 Vue.prototype.$axios = axios 
 Vue.prototype.$md5 = md5;
 Vue.use(animated)
-
+Vue.use(infiniteScroll)
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);

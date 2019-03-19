@@ -10,9 +10,9 @@ img{vertical-align:middle;}
 table{border-collapse:collapse;}/*合并表格边框（细线边框）*/
 input,textarea{outline:none;}
 textarea{resize:none;}
-
-
-
+.p_r_center{
+    position: relative;top:0;bottom:0;left:0;right:0;margin:auto;
+}
 
 
 
