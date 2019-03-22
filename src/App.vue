@@ -1,27 +1,29 @@
 <template>
   <div>
       <nav class="set-nav">        
-          <a href="https://data.gov.sg/" class="set-logo">
-            <img src="./assets/images/logo.png" style="width:150px;height:47px;" alt="Data.gov.sg" title="Data.gov.sg">
-          </a>
-          <p>www.dataopen.com</p>
+          <router-link to="/" class="set-logo">
+            <img src="./assets/images/logo.png" style="width:150px;height:47px;">
+          </router-link>
           <ul>
-            <li>登录/注册</li>
-            <li>联系我们</li>
+            <li><span class="iconfont icon-denglu"></span>登录/注册</li>
+            <li><span class="iconfont icon-lianxi"></span>联系我们</li>
           </ul>
       </nav>
       <div id="app">
          <div class="core" style="margin-bottom:1px;">
 
           <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]+')'">
-                 <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 240px;text-shadow:5px 2px 6px #000;">{{menuList[activeIndex].name}}</dd>
+                 <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 240px;text-shadow:5px 2px 6px #000;">{{watchTitle}}</dd>
                   <div style="margin-bottom:30px;">
                     <el-input placeholder="请输入内容"  class="input-with-select" style="width:500px;">
                       <el-button slot="append" icon="el-icon-search" style="height:54px;"></el-button>
                     </el-input>
                   </div>
                   <div>
-                         <el-button  type="primary" style="width:175px;" @click="switchBtn">浏览所有数据信息</el-button>
+                         <el-button  type="primary" style="width:175px;" @click="switchBtn">
+                           <span class="iconfont icon-earth"></span>
+                           浏览所有数据信息
+                         </el-button>
                   </div>
                   <div style="height:32px;width:1180px;align-self:center;background:#fff;margin-top:255px;">
                      <div style="background:#83e2cc;border-top:2px solid #48ba89;height:14px;margin-top:0;"></div>
@@ -30,14 +32,18 @@
           <el-menu
             v-if="switchStatus.menu"
             :default-active="activeIndex"
-            :class="[el-menu-demo,switchStatus.banner? 'M_top_350':'']"
+            :class="['el-menu-demo',switchStatus.banner? 'M_top_350':'']"
             mode="horizontal"
             @select="handleSelect"
             background-color="#fff"
             text-color="#113355"
             active-text-color="#ffd04b">
-            <el-menu-item v-for="(item,index) in menuList" :key="index" :index="index" style="text-align:center;"><span :class="'iconfont icon-'+item.icon" style="top:-27px;left:16px;position:relative;font-size:27px;line-height: 99px;
-}"></span><span style="position:relative;left:-12px;">{{item.name}}</span></el-menu-item>
+                  <el-menu-item v-for="(item,index) in menuList" :key="index" :index="index" style="text-align:center;">
+                      <div>
+                          <div :class="'iconfont icon-'+item.icon" style="font-size:20px;"></div>
+                          <div>{{item.name}}</div>
+                      </div>
+                  </el-menu-item>
           </el-menu>
           <router-view/>
         </div>
@@ -59,20 +65,37 @@ export default {
   name: 'App',
     data () {
     return {
-        activeIndex:0,
-        cssSRC:[require("./assets/images/banner.png"),require("./assets/images/banner1.jpg")],
+        cssSRC:[
+          require("./assets/images/city/bj.png"),
+          require("./assets/images/city/sh.png"),
+          require("./assets/images/city/gz.png"),
+          require("./assets/images/city/cq.png"),
+          require("./assets/images/city/sd.jpg"),
+          require("./assets/images/city/sy.jpg"),
+          require("./assets/images/city/wh.jpg"),
+          require("./assets/images/city/zj.jpg"),
+          require("./assets/images/city/sz.jpg"),
+          require("./assets/images/city/1.png"),
+          ],
+        activeIndex:'9',
         menuList:[
-          {Ename:"",name:"经济",icon:"jingji"},
-          {Ename:"",name:"环境",icon:"huanjing"},
-          {Ename:"",name:"教育",icon:"education_icon"},
-          {Ename:"",name:"就业",icon:"jiuyechuangye"},
-          {Ename:"",name:"交通",icon:"traffic"},
-          {Ename:"",name:"安全",icon:"anquan"},
-          {Ename:"",name:"文化",icon:"wenhuachuanmei"},
-          {Ename:"",name:"卫生",icon:"huanjing"},
-          {Ename:"",name:"市场监控",icon:"zhongxinhuanjing"}
-        ]
+          {Ename:"",name:"北京",icon:"city_beijing"},
+          {Ename:"",name:"上海",icon:"city_shanghai"},
+          {Ename:"",name:"广州",icon:"city_guangzhou"},
+          {Ename:"",name:"重庆",icon:"city_zhongqing"},
+          {Ename:"",name:"山东",icon:"city_qingdao"},
+          {Ename:"",name:"海南",icon:"city_sanya"},
+          {Ename:"",name:"武汉",icon:"city_wuhan"},
+          {Ename:"",name:"浙江",icon:"hangzhou"},
+          {Ename:"",name:"深圳",icon:"city_shenzhen"}
+        ],
+        watchTitle:"dataopen"
     }
+  },
+  watch:{
+     activeIndex(New,Old){
+          this.watchTitle = New =='-1'? 'dataopen':this.menuList[New].name
+       }
   },
   computed: {
             ...mapState([
@@ -91,13 +114,13 @@ export default {
       },
       switchBtn(){
           this.setSwitchStatus({banner:false,menu:false})
-          this.$router.push({  //核心语句
-                path:'/home'
+          this.$router.push({ 
+                name:'home',params:{channel:this.watchTitle}
                 })
     }
   },
   mounted(){
-    console.log(this.setSwitchStatus)
+     this.setSwitchStatus({banner:true,menu:true})
   } 
 }
 </script>
@@ -124,13 +147,7 @@ export default {
        margin-right: 14px;
        height:47px;      
     }
-    p{
-      height:47px;
-      line-height:47px;
-      width:300px;
-      position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;
-      text-align:center;
-    }
+
     .set-title{
       float:left;
       height:47px;
@@ -160,8 +177,15 @@ export default {
 
   }
   .el-input__inner {
-   height: 54px!important;
+   height: 55px!important;
+   border-right:0;
               }
+  .el-input-group__append{
+    background-color:rgba(255,255,255);
+  }
+  .el-menu-item{
+    line-height:26px!important;
+  }
   .M_top_350{
     margin-top:720px!important;
   }

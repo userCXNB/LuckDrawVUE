@@ -35,10 +35,7 @@ export default {
   methods: {
     menu(float,core1){
       this.scroll = document.documentElement.scrollTop
-      console.log(core1.offsetLeft+865)
-      console.log(this.scroll,float)
       if(this.scroll-float> 0){
-        console.log(41)
         this.floatStyle="width:315px;height:340px;background:#f6f6f6;position:fixed;top:0;left:"+Number(core1.offsetLeft+865)+"px;"
       }else{
         this.floatStyle="width:315px;height:340px;background:#f6f6f6"

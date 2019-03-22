@@ -1,6 +1,6 @@
 <template>
   <div style="padding-bottom:20px;">
-      <contentSon :width="width"></contentSon> 
+      <contentSon :width="width" :data='contentSonData'></contentSon> 
       <p style="font-size:27px;text-indent:75px;">相关资讯</p>
       <InformationSon></InformationSon>
       <InformationSon></InformationSon>
@@ -17,7 +17,8 @@ export default {
   },
   data(){
     return {
-      width:'auto'
+      width:'auto',
+      contentSonData:{}
     }
   },
   watch: {
@@ -29,6 +30,15 @@ export default {
   },
  
   mounted() {
+    console.log(this.$route.params)
+        var _that = this
+        this.$axios.get('/cms/api/info/v1/newsDetail?code='+this.$route.params.code)
+        .then((res)=>{
+            if(res.status == 200){
+            _that.contentSonData = res.data 
+            }
+                  
+       })
   }
 }
 </script>

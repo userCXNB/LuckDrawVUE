@@ -37,18 +37,17 @@
                <dd class="p_r_center">Information</dd>
            </dl>
            <ul class="setMain">
-             <InformationSon @click="toInformation"></InformationSon>
+             <InformationSon v-for="(item,index) in InformationData" :key="index" :data="item"></InformationSon>
            </ul>
 
       </article>
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10" style="margin-top:10px;">
         <template>
             <el-table
-                v-loading="true"
+                v-loading="busy"
                 element-loading-text="内容加载中"
                 element-loading-spinner="el-icon-loading"
                 element-loading-background="#fff"
-                :data="tableData"
                 style="width: 100%">
             </el-table>
         </template>
@@ -67,9 +66,10 @@ export default {
     directives: {infiniteScroll},
   data() {
     return {
-        data: [],
-            busy: false
-    }
+        InformationData: [],
+        maxResult:3,
+        busy: false  
+         }
   },
   watch: {
 
@@ -81,21 +81,37 @@ export default {
                 path:'/content1'
                 })
     },
-
     loadMore: function() {
       this.busy = true;
 
       setTimeout(() => {
-        for (var i = 0, j = 10; i < j; i++) {
-          this.data.push({ name: count++ });
-        }
-        this.busy = false;
-      }, 1000);
+        this.Information()
+      }, 2000);
       console.log(this.data)
+    },
+    Information:function(){
+                //行业资讯
+                 console.log(this.InformationData)
+        var _that = this
+        this.$axios.get('/cms/api/info/v1/list?firstResult=0&maxResult='+this.maxResult)
+        .then((res)=>{
+            if(res.status == 200){
+                //加载限制
+                if(res.data.list.length ==  _that.InformationData.length){
+                     _that.busy = false
+                }
+                _that.InformationData = res.data.list
+                _that.maxResult=_that.maxResult+3
+
+            }
+                  
+       })
     }
   },
   mounted() {
        this.$store.dispatch('setSwitchStatus',{banner:true,menu:true})
+       this.Information()
+
   }
 }
 </script>

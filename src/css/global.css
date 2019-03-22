@@ -14,6 +14,17 @@ textarea{resize:none;}
     position: relative;top:0;bottom:0;left:0;right:0;margin:auto;
 }
 
+/*声明 WebFont*/
+@font-face {
+    font-family: 'SourceHanSansCN-Bold';
+    src:url('./font/SourceHanSansCN-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  body{
+    font-family: 'SourceHanSansCN-Bold';
+}
 
 
   

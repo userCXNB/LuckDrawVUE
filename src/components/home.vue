@@ -41,7 +41,7 @@
       <div class="set_home_right">
            <el-button type="primary" style="float:right;margin:50px 0 10px;background:#fff;color:#113355;">下载<i class="el-icon-download el-icon--right"></i></el-button>
             <div>
-              <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
+              <el-input placeholder="请输入内容" class="input-with-select">
                 <el-button slot="append" icon="el-icon-search"></el-button>
               </el-input>
             </div>
@@ -95,9 +95,9 @@ export default {
       listSon
     },
     mounted () {
-      // api/3/action/package_search
 
-       console.log(this)
+
+       console.log(this.$route.params.channel)
         this.$axios.post('/api/api/3/action/package_search')
                 .then((res)=>{
                   if(res.status == 200){
@@ -105,65 +105,6 @@ export default {
                   }
                   
        })
-
-
-
-
-
-               
-
-
-      console.log(arrCookie)
-      var arrCookie = document.cookie.split(';')
-      
-      var csrftoken = ''
-      for (var i = 0; i < arrCookie.length; i++) {
-        var arr = arrCookie[i].split("=");
-        if (arr[0] == "csrftoken") csrftoken =arr[1];
-      }
-      // this.setState('payload11')
-      var _that = this
-      var arr = {username:'0000115_adm',pwdInput:_that.$md5('123456'),verCode:''}
-      this.$axios.post('/api/',{},
-      {headers: {'X-CSRFToken': csrftoken}}
-      ) //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
-        .then((res)=>{
-          console.log(res)
-
-      this.$axios.post('/api/show_code_user_name/', qs.stringify({username:'0000115_adm'}),
-                    {headers: {'X-CSRFToken': csrftoken,'Content-Type':'application/x-www-form-urlencoded;','Accept':'*/*'}
-                    }
-      ) //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
-        .then((res)=>{
-          console.log(res)
-
-                  _that.$axios.post('/api/admin_login/',
-                    qs.stringify(arr),
-                    {headers: {'X-CSRFToken': csrftoken,'Content-Type':'application/x-www-form-urlencoded;','Accept':'*/*'}}
-                    ) //全局引入使用vue原型中的方法this.$http,已经把axios添加到原型中  http://10.101.8.163:8080/hello
-                      .then((res)=>{
-                        console.log(res)
-                        this.datalist = res.data.data
-                      })
-                      .catch((err)=>{
-                        console.log('调用失败',err)
-                      })
-
-               })
-
-
-
-
-
-
-
-
-
-          this.datalist = res.data.data
-        })
-        .catch((err)=>{
-          console.log('调用失败',err)
-        })
 
 
 

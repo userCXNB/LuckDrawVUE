@@ -33,7 +33,7 @@ export default new Router({
       name: 'content1',
       component: content1
     },{
-      path: '/InformationSon',
+      path: '/InformationSon/:code',
       name: 'InformationSon',
       component: InformationSon
     },{
@@ -41,7 +41,7 @@ export default new Router({
       name: 'turntable',
       component: turntable
     },{
-      path: '/home',
+      path: '/home/:channel',
       name: 'home',
       component: home
     },{
@@ -56,10 +56,6 @@ export default new Router({
       path: '/detail',
       name: 'detail',
       component: detail
-    },{
-      path: '/main',
-      name: 'main',
-      component: main
     },{
       path: '/echarts',
       name: 'echarts',

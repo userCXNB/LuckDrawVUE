@@ -1,14 +1,14 @@
 <template>
-               <li @click="toInformation">
+               <li @click="toInformation(data.code)">
                    <div>
-                       <img src="../assets/images/case1.jpg" alt="">
+                       <img :src="'/cms/api/info/v1/pic?code='+data.code" alt="">
                    </div>
                    <dl>
-                       <dt>阿斯顿发阿斯顿发阿斯顿发阿斯</dt>
-                       <dd style="font-size:15px;line-height:17px;">阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发</dd>
+                       <dt>{{data.title}}</dt>
+                       <dd style="font-size:15px;line-height:17px;">{{data.subtitle}}</dd>
                        <dd style="font-size:10px;line-height:13px;color:#44e2c9;text-align:left;margin-top:24px;">全文</dd>
                    </dl>
-                   <p>2019-3-12 21:18:27</p>
+                   <p>{{data.createTime.time}}</p>
                </li>
 </template>
  
@@ -20,17 +20,18 @@ export default {
         }
   },
   watch: {
-
+     data(){
+         console.log(this.data)
+     }
   },
   methods: {
-    toInformation(){
-          this.$router.push({
-                path:'/content'
-                })
-    }
+      toInformation(code){
+        this.$router.push({
+            name:'content',params:{code:code}
+            })
+      }
   },
   mounted() {
-    console.log(this.data.resources)
   }
 }
 </script>
@@ -38,7 +39,10 @@ export default {
 <style lang="less" scoped>
        li{
            height:223px;margin:0 120px;border-bottom:1px solid #e4e4e4;position:relative;
-           div{float:left;width:245px;margin-top:35px;}
+           div{
+               float:left;width:245px;margin-top:35px;
+               img{width:245px;height:157px;}
+            }
            dl{
                float:right;width:650px;margin-top:11px;
                dt{font-size:23px;line-height:83px;}
