@@ -4,18 +4,18 @@
           <router-link to="/" class="set-logo">
             <img src="./assets/images/logo.png" style="width:150px;height:47px;">
           </router-link>
-          <ul>
+          <!-- <ul>
             <li><span class="iconfont icon-denglu"></span>登录/注册</li>
             <li><span class="iconfont icon-lianxi"></span>联系我们</li>
-          </ul>
+          </ul> -->
       </nav>
       <div id="app">
          <div class="core" style="margin-bottom:1px;">
 
-          <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]+')'">
-                 <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 240px;text-shadow:5px 2px 6px #000;">{{watchTitle}}</dd>
+          <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]+') 100%'">
+                 <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 240px;text-shadow:5px 2px 6px #000;">{{watchTitle.name}}<span v-if="watchTitle.name != 'China Open Data'">开放数据</span></dd>
                   <div style="margin-bottom:30px;">
-                    <el-input placeholder="请输入内容"  class="input-with-select" style="width:500px;">
+                    <el-input placeholder="请输入内容" v-model="keyWord" class="input-with-select" style="width:500px;">
                       <el-button slot="append" icon="el-icon-search" style="height:54px;"></el-button>
                     </el-input>
                   </div>
@@ -38,7 +38,7 @@
             background-color="#fff"
             text-color="#113355"
             active-text-color="#ffd04b">
-                  <el-menu-item v-for="(item,index) in menuList" :key="index" :index="index" style="text-align:center;">
+                  <el-menu-item v-for="(item,index) in menuList" :key="item" :index="index" style="text-align:center;">
                       <div>
                           <div :class="'iconfont icon-'+item.icon" style="font-size:20px;"></div>
                           <div>{{item.name}}</div>
@@ -79,31 +79,34 @@ export default {
           ],
         activeIndex:'9',
         menuList:[
-          {Ename:"",name:"北京",icon:"city_beijing"},
-          {Ename:"",name:"上海",icon:"city_shanghai"},
-          {Ename:"",name:"广州",icon:"city_guangzhou"},
-          {Ename:"",name:"重庆",icon:"city_zhongqing"},
-          {Ename:"",name:"山东",icon:"city_qingdao"},
-          {Ename:"",name:"海南",icon:"city_sanya"},
-          {Ename:"",name:"武汉",icon:"city_wuhan"},
-          {Ename:"",name:"浙江",icon:"hangzhou"},
-          {Ename:"",name:"深圳",icon:"city_shenzhen"}
+          {Ename:"beijing",name:"北京",icon:"city_beijing"},
+          {Ename:"shanghai",name:"上海",icon:"city_shanghai"},
+          {Ename:"guangdong",name:"广东",icon:"city_guangzhou"},
+          {Ename:"zhongqing",name:"重庆",icon:"city_zhongqing"},
+          {Ename:"shandong",name:"山东",icon:"city_qingdao"},
+          {Ename:"hainan",name:"海南",icon:"city_sanya"},
+          {Ename:"wuhan",name:"武汉",icon:"city_wuhan"},
+          {Ename:"hangzhou",name:"浙江",icon:"hangzhou"},
+          {Ename:"shenzhen",name:"深圳",icon:"city_shenzhen"}
         ],
-        watchTitle:"dataopen"
+        keyWord:'',
+        watchTitle:{Ename:"*",name:"China Open Data"}
     }
   },
   watch:{
      activeIndex(New,Old){
-          this.watchTitle = New =='-1'? 'dataopen':this.menuList[New].name
+          this.watchTitle = New =='-1'? {Ename:"*",name:"China Open Data"}:this.menuList[New]
+          //organization状态管理
+          this.setOrganization(this.menuList[New])
        }
   },
   computed: {
             ...mapState([
-                'switchStatus'
+                'switchStatus','organization'
             ]),
         }, 
   methods: {
-      ...mapActions(['setSwitchStatus']),
+      ...mapActions(['setSwitchStatus','setOrganization']),
       ...mapGetters(['getSwitchStatus']),
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
@@ -113,9 +116,11 @@ export default {
           
       },
       switchBtn(){
+        console.log(this.keyWord)
           this.setSwitchStatus({banner:false,menu:false})
+          this.watchTitle.keyWord = this.keyWord
           this.$router.push({ 
-                name:'home',params:{channel:this.watchTitle}
+                name:'home',params:{channel:JSON.stringify(this.watchTitle)}
                 })
     }
   },

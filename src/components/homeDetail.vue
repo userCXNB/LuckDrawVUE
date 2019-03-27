@@ -1,37 +1,5 @@
 <template>
-  <div class="set_home">
-      <div class="set_home_left">
-        <div class="set_home_left_title">资源方</div>
-        <div style="padding:17px 21px 71px;">
-          <dl>
-            <td>
-              <img src="../assets/images/city/wh.jpg" style="width:100%;" alt="">
-            </td>
-            <dd style="border-top:2px solid #52e4cd;margin-top:33px;position:relative">
-                <div style="position:absolute;top:-21px;left:81px;background:#fff;text-align:center;color:#52e4cd;width:95px;">
-                    <div style="font-size:26px;line-height:26px;">武汉</div>
-                    <div style="font-size:10px;line-height:20px;">wuhan</div>
-                </div>
-            </dd>
-          </dl>
-        </div>
-        <div class="set_home_left_title">数据领域</div>
-        <el-button plain type="info" v-for="(item,index) in menuList" :key="index" style='width:300px;margin-left:0px;margin-bottom:2px;background:#fff;' v-focus='{item:item,channel:$route.params.channel}'>{{item.name}}</el-button>
-        <div class="set_home_left_title">文件格式</div>
-        <el-dropdown style="width:300px;">
-          <el-button type="primary" style="width:300px;background:#fff;color:#113355;">
-            全部<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown" style="width:300px;">
-            <el-dropdown-item  style="text-align:center"><img src="../assets/images/csv.png" style="margin-right:15px;" alt="">CSV</el-dropdown-item>
-            <el-dropdown-item  style="text-align:center"><img src="../assets/images/api.png" style="margin-right:18px;" alt="">API</el-dropdown-item>
-            <el-dropdown-item  style="text-align:center"><img src="../assets/images/kml.png" style="margin-right:15px;" alt="">KML</el-dropdown-item>
-            <el-dropdown-item  style="text-align:center"><img src="../assets/images/shp.png" style="margin-right:15px;" alt="">SHP</el-dropdown-item>
-            <el-dropdown-item  style="text-align:center"><img src="../assets/images/pdf.png" style="margin-right:15px;" alt="">PDF</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-      <div class="set_home_right">
+ <div class="set_home_right">
            <!-- <el-button type="primary" style="float:right;margin:50px 0 10px;background:#fff;color:#113355;">下载<i class="el-icon-download el-icon--right"></i></el-button> -->
             <div>
               <el-input placeholder="请输入内容" v-model="keyWord" class="input-with-select">
@@ -65,8 +33,7 @@
               layout="prev, pager, next"
               :total="datalist.count">
             </el-pagination>
-      </div>
-  </div>    
+      </div>    
 </template>
 
 <script>
@@ -78,21 +45,6 @@ export default {
   data () {
     return {
       datalist:{},
-      keyWord:"",
-      menuList:[
-          {name:"公共服务"},
-          {name:"政府机构"},
-          {name:"能源环境"},
-          {name:"经济发展"},
-          {name:"农业农村"},
-          {name:"文化娱乐"},
-          {name:"教育科技"},
-          {name:"金融服务"},
-          {name:"公共安全"},
-          {name:"交通服务"},
-          {name:"医疗卫生"},
-          {name:"法律服务"},
-        ],
     }
   },
       components:{
@@ -168,20 +120,7 @@ export default {
         .set_home{
          display:flex;
          justify-content:space-between;
-              .set_home_left{
-                 margin-top:159px;
-                 width: 300px;
-                 .set_home_left_title{
-                    margin:15px 0 4px;
-                    font-size:20px;
-                    background:#52e4cd;
-                    text-align:center;
-                    line-height:54px;
-                 }
-                 .el-button.is-plain:focus, .el-button.is-plain:hover{
-                   background:#52e4cd!important;
-                 }
-              }
+
               .set_home_right{
                  width:720px;
                  dl{

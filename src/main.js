@@ -15,6 +15,9 @@ import "xlsx/dist/xlsx.core.min.js";
 import './mock/index'
 import md5 from 'js-md5';
 import infiniteScroll from 'vue-infinite-scroll'//下拉加载数据
+import filters from '@/filters/filters.js';//main.js里注册filter
+
+Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 
 
 //全局注册

@@ -6,6 +6,9 @@ let getters = {
     getSwitchStatus:(state)=>{
       console.log('we')
       return state.switchStatus
+    },
+    getOrganization:(state)=>{
+      return state.organization
     }
 };
 

@@ -7,20 +7,20 @@
            </dl>
            <ul class="set-main">
                <template>
-                    <el-carousel indicator-position="outside">
-                        <el-carousel-item v-for="item in 3" :key="item">
+                   <el-carousel>
+                        <el-carousel-item v-for="(ScenarioItem,index) in ScenarioData" :key="index">
                             <div class="setMainCarousel">
-                                <li v-for="item in 4" :key="item" @click="toScenario">
+                                <li v-for="(item,ind) in ScenarioItem" :key="ind" @click="toScenario(item.code)">
                                     <div>
-                                        <img src="../assets/images/case.jpg" alt="">
+                                        <img :src="'/cms/api/info/v1/pic?code='+item.code" alt="">
                                     </div>
-                                    <p class="title">案例标题</p>
+                                    <marquee class="title" style="width:165px;">{{item.title}}</marquee>
                                     <dl>
                                         <dt>
-                                            <P class="tag p_r_center">标签/频道</P>
+                                            <P class="tag p_r_center">{{item.newsFrom|ellipsis(5)}}</P>
                                         </dt>
                                         <dd style="padding:16px;padding-bottom:0;">
-                                            阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿
+                                            {{item.summery|ellipsis(45)}}
                                         </dd>
                                         <dd style="color:#44e2c9;text-align:right;padding-right:16px;">全文</dd>
                                     </dl>
@@ -41,7 +41,7 @@
            </ul>
 
       </article>
-        <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10" style="margin-top:10px;">
+        <div v-infinite-scroll="loadMore" infinite-scroll-disabled="true" infinite-scroll-distance="10" style="margin-top:10px;">
         <template>
             <el-table
                 v-loading="busy"
@@ -67,36 +67,39 @@ export default {
   data() {
     return {
         InformationData: [],
+        ScenarioData:[],
         maxResult:3,
         busy: false  
          }
   },
   watch: {
-
+     ScenarioData(){
+         console.log(this.ScenarioData)
+     }
   },
   methods: {
-    toScenario(){
-        //   this.setSwitchStatus()
-          this.$router.push({  //核心语句
-                path:'/content1'
+    toScenario(code){
+        console.log(code)
+          this.$router.push({  
+                name:'content1',params:{code:code}
                 })
     },
-    loadMore: function() {
+    loadMore: function(){
       this.busy = true;
-
       setTimeout(() => {
         this.Information()
-      }, 2000);
-      console.log(this.data)
+      }, 1000);
     },
     Information:function(){
                 //行业资讯
                  console.log(this.InformationData)
         var _that = this
-        this.$axios.get('/cms/api/info/v1/list?firstResult=0&maxResult='+this.maxResult)
+        this.$axios.get('/cms/api/info/v1/list?firstResult=0&type=2&maxResult='+this.maxResult)
         .then((res)=>{
             if(res.status == 200){
                 //加载限制
+                console.log(res.data.list.length)
+                console.log(_that.InformationData.length)
                 if(res.data.list.length ==  _that.InformationData.length){
                      _that.busy = false
                 }
@@ -106,17 +109,37 @@ export default {
             }
                   
        })
+    },
+    Scenario:function(){
+                //应用场景
+                 console.log(this.ScenarioData)
+        var _that = this
+        this.$axios.get('/cms/api/info/v1/list?firstResult=0&type=1&maxResult=12')
+        .then((res)=>{
+            if(res.status == 200){
+                //加载限制
+                for(var i=0;i<Math.ceil(res.data.list.length/4);i++){
+                    _that.ScenarioData.push([])
+                }
+                for(var i=0;i<_that.ScenarioData.length;i++){
+                    _that.ScenarioData[i] = res.data.list.slice(i*4,(i+1)*4)
+                }
+                console.log(_that.ScenarioData)
+            }
+                  
+       })
     }
   },
   mounted() {
        this.$store.dispatch('setSwitchStatus',{banner:true,menu:true})
        this.Information()
+       this.Scenario()
 
   }
 }
 </script>
  
-<style lang="less" scoped>
+<style lang="less">
 .set-scenario{
     .set-name{
       color:#44e2c9;text-align:center;margin-top:74px;
@@ -124,15 +147,22 @@ export default {
         font-size:30px;line-height:36px;
       }
       dd{
-        font-size:14px;line-height:35px;width:270px;border-bottom:1px solid #44e2c9;
+        font-size:14px;line-height:35px;width:270px;border-bottom:3px solid #44e2c9;
       }
     }
     .set-main{
        padding:69px 0 25px;
+       .el-carousel__container{
+           height:410px!important;
+       }
        .setMainCarousel{
          display:flex;justify-content:space-around;align-items:center;
          li{
-            text-align:center;width:174px;height:281px;box-shadow: 0 0 30px #e0e2e1;
+            text-align:center;width:280px;height:376px;box-shadow: 0 0 30px #e0e2e1;
+            img{
+                width:280px;
+                height:180px;
+            }
             .title{height:33px;font-size:13px;line-height:33px;color:#44e2c9;}
              dd{font-size:10px;line-height:13px;}
             .tag{padding-top:8px;width:73px;font-size:12px;line-height:20px;background:#edefee url(../assets/images/1.jpg) no-repeat;}

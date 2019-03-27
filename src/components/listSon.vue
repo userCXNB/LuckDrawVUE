@@ -1,9 +1,11 @@
 <template>
-    <li class="list" @click="toDetail">
-          <div class="title" v-text="data.resources[0].name"></div>
+    <li class="list">
+          <div class="title" v-text="data.resources[0].name" @click="toDetail"></div>
+          <div>作者 / {{data.author}}</div>
+          <div>数据领域 / {{data.groups[0].title}}</div>
           <div>{{data.organization.title}} / {{data.resources[0].last_modified}}</div>
-          <div v-text='data.resources[0].description'></div>
-          <img src="../assets/images/csv.jpg" alt="">
+          <div>{{data.resources[0].description|ellipsis(100)}}</div>
+          <img :src="'../../static/images/'+data.resources[0].format.toLowerCase()+'.png'" alt="">
     </li>
 </template>
  

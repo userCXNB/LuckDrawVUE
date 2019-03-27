@@ -1,2 +1,3 @@
 export const SET_STATE="SET_STATE"; 
 export const SET_SWITCH_STATUS="SET_SWITCH_STATUS"; 
+export const SET_ORGANIZATION="SET_ORGANIZATION"; 

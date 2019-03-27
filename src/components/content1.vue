@@ -1,6 +1,6 @@
 <template>
   <div class="core1" style="padding-bottom:20px;display:flex;justify-content:space-between;">
-      <contentSon :width="'765px'"></contentSon> 
+      <contentSon :width="'765px'" :data='contentSonData'></contentSon> 
        <div class="float" :style="floatStyle">
           <h2>相关数据集</h2>
           <ul class="innerbox">
@@ -26,7 +26,8 @@ export default {
   },
   data() {
     return {
-      floatStyle:"width:315px;height:340px;background:#f6f6f6;"
+      floatStyle:"width:315px;height:340px;background:#f6f6f6;",
+      contentSonData:{}
     }
   },
   watch: {
@@ -54,6 +55,17 @@ export default {
     let core1 = document.getElementsByClassName('core1')[0]
     this.menu.bind(null,float,core1)()
     window.addEventListener('scroll',this.menu.bind(null,float,core1))
+
+
+    console.log(this.$route.params.code)
+    var _that = this
+    this.$axios.get('/cms/api/info/v1/newsDetail?code='+this.$route.params.code)
+    .then((res)=>{
+        if(res.status == 200){
+        _that.contentSonData = res.data 
+        }
+              
+    })
 
   }
 }

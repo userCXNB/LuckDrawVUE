@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/components/home'
+import homeDetail from '@/components/homeDetail'
 import turntable from '@/components/turntable'
 import echarts from '@/components/echarts'
 import awesome from '@/components/awesome'
@@ -33,7 +34,7 @@ export default new Router({
       name: 'content1',
       component: content1
     },{
-      path: '/InformationSon/:code',
+      path: '/InformationSon',
       name: 'InformationSon',
       component: InformationSon
     },{
@@ -44,6 +45,10 @@ export default new Router({
       path: '/home/:channel',
       name: 'home',
       component: home
+    },{
+      path: '/homeDetail',
+      name: 'homeDetail',
+      component: homeDetail
     },{
       path: '/listSon',
       name: 'listSon',

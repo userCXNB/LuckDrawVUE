@@ -10,7 +10,11 @@ let action = {
     setSwitchStatus({commit,state},payload){
          console.log(payload)
          commit(types.SET_SWITCH_STATUS,payload)
+    },
+    setOrganization({commit,state},payload){
+          commit(types.SET_ORGANIZATION,payload)   
     }
+
 
 }
 

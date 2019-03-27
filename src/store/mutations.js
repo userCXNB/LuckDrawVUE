@@ -13,7 +13,10 @@ let mutations = {
        }else{
         state.switchStatus.banner = !state.switchStatus.banner
        }
-    }
+    },
+    [types.SET_ORGANIZATION]:(state,payload)=>{
+       state.organization = payload
+   }
 
 };
 
