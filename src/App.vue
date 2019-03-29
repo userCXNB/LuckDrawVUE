@@ -15,17 +15,17 @@
           <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]+') 100%'">
                  <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 240px;text-shadow:5px 2px 6px #000;">{{watchTitle.name}}<span v-if="watchTitle.name != 'China Open Data'">开放数据</span></dd>
                   <div style="margin-bottom:30px;">
-                    <el-input placeholder="请输入内容" v-model="keyWord" class="input-with-select" style="width:500px;">
-                      <el-button slot="append" icon="el-icon-search" style="height:54px;"></el-button>
+                    <el-input placeholder="请输入内容" v-model="keyWord" class="input-with-select" style="width:500px;" @keyup.native.enter='switchBtn(false)'>
+                      <el-button slot="append" icon="el-icon-search" style="height:54px;" @click="switchBtn(false)"></el-button>
                     </el-input>
                   </div>
                   <div>
-                         <el-button  type="primary" style="width:175px;" @click="switchBtn">
+                         <el-button  type="primary" style="width:175px;" @click="switchBtn(true)">
                            <span class="iconfont icon-earth"></span>
                            浏览所有数据信息
                          </el-button>
                   </div>
-                  <div style="height:32px;width:1180px;align-self:center;background:#fff;margin-top:255px;">
+                  <div style="height:32px;width:1180px;align-self:center;background:#fff;margin-top:262px;">
                      <div style="background:#83e2cc;border-top:2px solid #48ba89;height:14px;margin-top:0;"></div>
                   </div>
           </section>
@@ -70,24 +70,24 @@ export default {
           require("./assets/images/city/sh.png"),
           require("./assets/images/city/gz.png"),
           require("./assets/images/city/cq.png"),
-          require("./assets/images/city/sd.jpg"),
-          require("./assets/images/city/sy.jpg"),
-          require("./assets/images/city/wh.jpg"),
-          require("./assets/images/city/zj.jpg"),
-          require("./assets/images/city/sz.jpg"),
+          require("./assets/images/city/sd.png"),
+          require("./assets/images/city/hn.png"),
+          require("./assets/images/city/wh.png"),
+          require("./assets/images/city/zj.png"),
+          require("./assets/images/city/sz.png"),
           require("./assets/images/city/1.png"),
           ],
         activeIndex:'9',
         menuList:[
-          {Ename:"beijing",name:"北京",icon:"city_beijing"},
-          {Ename:"shanghai",name:"上海",icon:"city_shanghai"},
-          {Ename:"guangdong",name:"广东",icon:"city_guangzhou"},
-          {Ename:"zhongqing",name:"重庆",icon:"city_zhongqing"},
-          {Ename:"shandong",name:"山东",icon:"city_qingdao"},
-          {Ename:"hainan",name:"海南",icon:"city_sanya"},
-          {Ename:"wuhan",name:"武汉",icon:"city_wuhan"},
-          {Ename:"hangzhou",name:"浙江",icon:"hangzhou"},
-          {Ename:"shenzhen",name:"深圳",icon:"city_shenzhen"}
+          {Ename:"beijing",name:"北京",icon:"city_beijing",src:'bj.png'},
+          {Ename:"shanghai",name:"上海",icon:"city_shanghai",src:'sh.png'},
+          // {Ename:"guangdong",name:"广东",icon:"city_guangzhou",src:'gz.png'},
+          // {Ename:"chongqing",name:"重庆",icon:"city_zhongqing",src:'cq.png'},
+          // {Ename:"shandong",name:"山东",icon:"city_qingdao",src:'sd.png'},
+          // {Ename:"hainan",name:"海南",icon:"city_sanya",src:'hn.png'},
+          {Ename:"wuhan",name:"武汉",icon:"city_wuhan",src:'wh.png'},
+          // {Ename:"zhejiang",name:"浙江",icon:"hangzhou",src:'zj.png'},
+          // {Ename:"shenzhen",name:"深圳",icon:"city_shenzhen",src:'sz.png'}
         ],
         keyWord:'',
         watchTitle:{Ename:"*",name:"China Open Data"}
@@ -112,12 +112,12 @@ export default {
         console.log(key, keyPath);
         this.activeIndex = key
       },
-      menuOpt(){
-          
-      },
-      switchBtn(){
-        console.log(this.keyWord)
+      switchBtn(state){
+          console.log(this.keyWord)
           this.setSwitchStatus({banner:false,menu:false})
+          if(state){
+             this.keyWord = ''
+          }
           this.watchTitle.keyWord = this.keyWord
           this.$router.push({ 
                 name:'home',params:{channel:JSON.stringify(this.watchTitle)}
@@ -125,7 +125,9 @@ export default {
     }
   },
   mounted(){
-     this.setSwitchStatus({banner:true,menu:true})
+     if(this.$route.path=='/'){
+         this.setSwitchStatus({banner:true,menu:true})
+     }
   } 
 }
 </script>
@@ -182,7 +184,7 @@ export default {
 
   }
   .el-input__inner {
-   height: 55px!important;
+   height: 45px!important;
    border-right:0;
               }
   .el-input-group__append{

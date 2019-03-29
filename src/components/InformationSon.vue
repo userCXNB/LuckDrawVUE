@@ -1,12 +1,13 @@
 <template>
-               <li @click="toInformation(data.code)">
+               <li>
                    <div>
                        <img :src="'/cms/api/info/v1/pic?code='+data.code" alt="">
                    </div>
                    <dl>
-                       <dt>{{data.title|ellipsis(25)}}</dt>
-                       <dd style="font-size:15px;line-height:17px;">{{data.summery|ellipsis(83)}}</dd>
-                       <a style="font-size:13px;line-height:13px;color:#44e2c9;text-align:left;margin-top:24px;">全文</a>
+                       <dt class="title" @click="toInformation(data.code)">{{data.title|ellipsis(25)}}</dt>
+                       <dd style="font-size:15px;line-height:17px;margin-top:38px;margin-bottom:24px;">{{data.summery|ellipsis(75)}}
+                           <a style="font-size:13px;line-height:13px;color:#44e2c9;text-align:left;cursor:pointer" @click="toInformation(data.code)">全文</a>
+                       </dd>
                    </dl>
                    <p>{{data.createTime.time|formatDate('yyyy-MM-dd hh:mm:ss')}}</p>
                </li>
@@ -27,7 +28,7 @@ export default {
   methods: {
       toInformation(code){
         this.$router.push({
-            name:'content',params:{code:code}
+            name:'content',params:{code:code,name:'行业资讯'}
             })
       }
   },
@@ -39,6 +40,12 @@ export default {
 <style lang="less" scoped>
        li{
            height:223px;margin:0 120px;border-bottom:1px solid #e4e4e4;position:relative;
+           .title{
+                cursor:pointer;
+                }
+                .title:hover{
+                color:#52e4cd;
+                }
            div{
                float:left;width:245px;margin-top:35px;
                img{width:245px;height:157px;}

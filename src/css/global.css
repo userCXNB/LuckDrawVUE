@@ -17,9 +17,10 @@ textarea{resize:none;}
 /*声明 WebFont*/
 @font-face {
     font-family: 'SourceHanSansCN-Bold';
-    src:url('./font/SourceHanSansCN-Bold.ttf') format('truetype');
-    font-weight: normal;
+    src:url('../../static/font/SourceHanSansCN-Bold.ttf') format('truetype');
+    /* font-weight: normal; */
     font-style: normal;
+    color:#888;
   }
   
   body{

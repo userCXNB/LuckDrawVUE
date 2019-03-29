@@ -1,7 +1,7 @@
 <template>
   <div class="core1" style="padding-bottom:20px;display:flex;justify-content:space-between;">
       <contentSon :width="'765px'" :data='contentSonData'></contentSon> 
-       <div class="float" :style="floatStyle">
+       <!-- <div class="float" :style="floatStyle">
           <h2>相关数据集</h2>
           <ul class="innerbox">
              <li>上海卫生数据统计</li>
@@ -14,7 +14,7 @@
              <li>上海卫生数据统计</li>
              <li>上海卫生数据统计</li>
           </ul>
-       </div>
+       </div> -->
   </div>
 </template>
  
@@ -50,11 +50,11 @@ export default {
     //addEventListener中用选择器出现undefined
     //addEventListener怎么传参
     //如何设置浮动left距离,确保随屏幕百分比而改变
-    let float = document.getElementsByClassName('float')[0].offsetTop-720
+    // let float = document.getElementsByClassName('float')[0].offsetTop-720
     //在contentSon里改变了banner的status,在挂载content1时，offsetTop里算了banner的高,挂载是子到父，子的mounted结束时才会执行父组件
-    let core1 = document.getElementsByClassName('core1')[0]
-    this.menu.bind(null,float,core1)()
-    window.addEventListener('scroll',this.menu.bind(null,float,core1))
+    // let core1 = document.getElementsByClassName('core1')[0]
+    // this.menu.bind(null,float,core1)()
+    // window.addEventListener('scroll',this.menu.bind(null,float,core1))
 
 
     console.log(this.$route.params.code)
@@ -63,6 +63,7 @@ export default {
     .then((res)=>{
         if(res.status == 200){
         _that.contentSonData = res.data 
+        _that.contentSonData.contentName = '应用场景'
         }
               
     })

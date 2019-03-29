@@ -1,6 +1,6 @@
 <template>
     <li class="list">
-          <div class="title" v-text="data.resources[0].name" @click="toDetail"></div>
+          <div class="title" v-text="data.resources[0].name" @click="switchStatus(data)"></div>
           <div>作者 / {{data.author}}</div>
           <div>数据领域 / {{data.groups[0].title}}</div>
           <div>{{data.organization.title}} / {{data.resources[0].last_modified}}</div>
@@ -11,7 +11,7 @@
  
 <script>
 export default {
-  props:['data'],
+  props:['data','switchStatus'],
   data() {
    return {
         }
@@ -44,6 +44,10 @@ export default {
             .title{
                 font-size:20px;
                 line-height:32px;
+                cursor:pointer;
+            }
+            .title:hover{
+            color:#52e4cd;
             }
             img{
               margin:7px 0 7px;

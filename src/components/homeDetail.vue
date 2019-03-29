@@ -17,14 +17,13 @@
                             名称<i class="el-icon-arrow-down el-icon--right"></i>
                           </el-button>
                           <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>名称</el-dropdown-item>
-                            <el-dropdown-item>时间</el-dropdown-item>
+                            <el-dropdown-item v-for="(item,index) in sortlist" :key='index' @click.native="sort(item)">{{item.name}}</el-dropdown-item>
                           </el-dropdown-menu>
                         </el-dropdown>
               </dd>
             </dl>
             <ul class="set-content">
-                <listSon v-for="(item,index) in datalist.results" :key='index' :data="item"/>
+                <listSon v-for="(item,index) in datalist.results" :key='index' :data="item" :switchStatus='switchStatus'/>
             </ul>
             <el-pagination
               style="text-align:center;margin:22px 0 75px;"
@@ -38,18 +37,21 @@
 
 <script>
 import listSon from '@/components/listSon'
-import { slider, slideritem } from 'vue-concise-slider';
 import {mapActions,mapState} from "vuex";
-import qs from 'qs';
 export default {
+  props:['switchStatus','menu','format'],
   data () {
     return {
-      datalist:{},
+        datalist:{},
+        keyWord:"",
+        sortName:"title_string",
+        sortlist:[
+          {name:'名称',Ename:'title_string'},
+          {name:'时间',Ename:'metadata_modified'}
+        ]
     }
   },
       components:{
-      slider,
-      slideritem,
       listSon
     },
      computed: {
@@ -63,40 +65,70 @@ export default {
        },
      keyWord(New,Old){
            this.getPackageData(0)
-       }
+       },
+     sortName(New,Old){
+           this.getPackageData(0)
+     },
+     menu(){
+       console.log(this.menu)
+       this.getPackageData(0)
+     },
+     format(){
+
+       this.getPackageData(0)
+     }
     },
     mounted () {
-       console.log(JSON.parse(this.$route.params.channel))
        this.keyWord = JSON.parse(this.$route.params.channel).keyWord
        this.getPackageData(0)
+       console.log(this.menu)
       // this.$store.commit("SET_STATE")
       // this.$store.dispatch("setState")
     },
      methods: {
        ...mapActions(['setState']),
-      onTap (data) {
-        if(data.currentPage==0){
-           this.$router.push("/PhotoWall")
-        }else{
-           this.$router.push("/turntable")
-        }
-        
-      },
       handleCurrentChange(val){
-        //  this.dataPageList = this.datalist.slice((val-1)*10,val*10)
         this.getPackageData(val)
         window.scrollTo(0,0);
       },
       getPackageData(val){
-          
-          console.log(this.keyWord)
-          this.$axios.get('/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=organization:'+this.organization.Ename+'&start='+val+'&rows=20')
+          var _that = this
+          this.$axios.get(
+            '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=organization:'+this.organization.Ename+'&start='+val+'&rows=200&sort='+this.sortName+'+desc'
+          )
                   .then((res)=>{
                     if(res.status == 200){
                           this.datalist = res.data.result
+                          // console.log(this.datalist.results)
+                          console.log(_that.menu)
+                      if(_that.menu){
+                        // console.log(_that.menu.Ename)
+                        // console.log(this.datalist.groups[0].name)
+                        var temp = []
+                        for(var i=0;i<this.datalist.results.length;i++){
+                          if(this.datalist.results[i].groups[0].name == _that.menu.Ename){
+                                temp.push(this.datalist.results[i])
+                          }
+                        }
+                        this.datalist.results = temp
+                        this.datalist.count = this.datalist.results.length
+                      }
+                      if(_that.format){
+                        var temp = []
+                        for(var i=0;i<this.datalist.results.length;i++){
+                          if(this.datalist.results[i].resources[0].format == _that.format.name){
+                                temp.push(this.datalist.results[i])
+                          }
+                        }
+                        this.datalist.results = temp
+                        this.datalist.count = this.datalist.results.length
+                      }
                     }
                     
         })
+      },
+      sort(item){
+           this.sortName = item.Ename
       }
     },
     directives:{
@@ -114,50 +146,34 @@ export default {
 </script>
 
 <style lang="less" scoped>
-        #app{
-          height:100%;
-        }
-        .set_home{
-         display:flex;
-         justify-content:space-between;
+  .set_home_right{
+      width:797px;
+      dl{
+        height:68px;
+        display:flex;
+        justify-content:space-between;
+        font-size:24px;
+        line-height:68px;
+      }
+      .set-content{
 
-              .set_home_right{
-                 width:720px;
-                 dl{
-                   height:68px;
-                   display:flex;
-                   justify-content:space-between;
-                    font-size:24px;
-                    line-height:68px;
-                 }
-                 .set-content{
-
-                   
-                   li{
-                      background:#fff;
-                      margin-bottom:2px;
-                      padding:20px 45px 16px 23px;
-                      div{
-                        font-size:12px;
-                        line-height: 24px;
-                      }
-                      .title{
-                          font-size:20px;
-                          line-height:32px;
-                      }
-                      img{
-                        margin:7px 0 7px;
-                      }
-                   }
-                 }
-              }
+        
+        li{
+          background:#fff;
+          margin-bottom:2px;
+          padding:20px 45px 16px 23px;
+          div{
+            font-size:12px;
+            line-height: 24px;
+          }
+          .title{
+              font-size:20px;
+              line-height:32px;
+          }
+          img{
+            margin:7px 0 7px;
+          }
         }
-
-        .top>p{
-          height:100%;
-          text-align:center;
-          font:italic 700 100px/100px '宋体'; 
-          color: #FFCC33;
-          margin-top:30%;
-        }
+      }
+  }
 </style>

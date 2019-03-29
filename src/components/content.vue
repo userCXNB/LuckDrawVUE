@@ -1,7 +1,7 @@
 <template>
   <div style="padding-bottom:20px;">
       <contentSon :width="width" :data='contentSonData'></contentSon> 
-      <p style="font-size:27px;text-indent:75px;">相关资讯</p>
+      <!-- <p style="font-size:27px;text-indent:75px;">相关资讯</p> -->
       <InformationSon></InformationSon>
       <InformationSon></InformationSon>
       <InformationSon></InformationSon>
@@ -36,6 +36,7 @@ export default {
         .then((res)=>{
             if(res.status == 200){
             _that.contentSonData = res.data 
+            _that.contentSonData.contentName = this.$route.params.name
             }
                   
        })

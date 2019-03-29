@@ -10,11 +10,11 @@
                    <el-carousel>
                         <el-carousel-item v-for="(ScenarioItem,index) in ScenarioData" :key="index">
                             <div class="setMainCarousel">
-                                <li v-for="(item,ind) in ScenarioItem" :key="ind" @click="toScenario(item.code)">
+                                <li v-for="(item,ind) in ScenarioItem" :key="ind">
                                     <div>
                                         <img :src="'/cms/api/info/v1/pic?code='+item.code" alt="">
                                     </div>
-                                    <marquee class="title" style="width:165px;">{{item.title}}</marquee>
+                                    <marquee class="title" style="width:165px;cursor:pointer" @click="toScenario(item.code)">{{item.title}}</marquee>
                                     <dl>
                                         <dt>
                                             <P class="tag p_r_center">{{item.newsFrom|ellipsis(5)}}</P>
@@ -22,7 +22,7 @@
                                         <dd style="padding:16px;padding-bottom:0;">
                                             {{item.summery|ellipsis(45)}}
                                         </dd>
-                                        <dd style="color:#44e2c9;text-align:right;padding-right:16px;">全文</dd>
+                                        <dd style="color:#44e2c9;text-align:right;padding-right:16px;cursor:pointer" @click="toScenario(item.code)">全文</dd>
                                     </dl>
                                 </li>
                             </div>
@@ -81,7 +81,7 @@ export default {
     toScenario(code){
         console.log(code)
           this.$router.push({  
-                name:'content1',params:{code:code}
+                name:'content',params:{code:code,name:'应用场景'}
                 })
     },
     loadMore: function(){
