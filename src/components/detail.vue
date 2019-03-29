@@ -2,7 +2,7 @@
    <div class="set_home_right" style="padding:0px 97px 0 30px;">
       <div style="font-size:41px;line-height:61px;margin-top:55px;">{{detail.title}}</div>
       <el-button plain><a :href='detail.url'>前往资源</a></el-button>
-      <div style="font-size:15px;line-height:22px;margin:35px 0 48px;">
+      <div style="font-size:15px;line-height:22px;margin:35px 0 48px;color:gray">
         {{detail.notes}}
       </div>
       <div class="set_home_left_title">数据说明</div>
@@ -89,5 +89,6 @@ export default {
         background:#52e4cd;
         text-align:center;
         line-height:54px;
+        color:#fff;
     }
 </style>

@@ -9,18 +9,18 @@
                <template>
                    <el-carousel>
                         <el-carousel-item v-for="(ScenarioItem,index) in ScenarioData" :key="index">
-                            <div class="setMainCarousel">
+                            <div class="setMainCarousel" style="width:1055px;margin-left:63px;">
                                 <li v-for="(item,ind) in ScenarioItem" :key="ind">
                                     <div>
                                         <img :src="'/cms/api/info/v1/pic?code='+item.code" alt="">
                                     </div>
-                                    <marquee class="title" style="width:165px;cursor:pointer" @click="toScenario(item.code)">{{item.title}}</marquee>
+                                    <p class="title" style="padding:0 10px;cursor:pointer;text-align:center;margin-top:23px;" @click="toScenario(item.code)">{{item.title|ellipsis(25)}}</p>
                                     <dl>
-                                        <dt>
+                                        <!-- <dt style="margin:10px 0 10px;">
                                             <P class="tag p_r_center">{{item.newsFrom|ellipsis(5)}}</P>
-                                        </dt>
-                                        <dd style="padding:16px;padding-bottom:0;">
-                                            {{item.summery|ellipsis(45)}}
+                                        </dt> -->
+                                        <dd style="padding:16px;padding-bottom:0;color:gray;line-height:18px;">
+                                            {{item.summery|ellipsis(60)}}
                                         </dd>
                                         <dd style="color:#44e2c9;text-align:right;padding-right:16px;cursor:pointer" @click="toScenario(item.code)">全文</dd>
                                     </dl>
@@ -158,14 +158,14 @@ export default {
        .setMainCarousel{
          display:flex;justify-content:space-around;align-items:center;
          li{
-            text-align:center;width:280px;height:376px;box-shadow: 0 0 30px #e0e2e1;
+            text-align:center;width:200px;height:376px;box-shadow: 0 0 30px #e0e2e1;
             img{
-                width:280px;
+                width:200px;
                 height:180px;
             }
-            .title{height:33px;font-size:13px;line-height:33px;color:#44e2c9;}
+            .title{height:33px;font-size:13px;line-height:16px;color:#44e2c9;}
              dd{font-size:10px;line-height:13px;}
-            .tag{padding-top:8px;width:73px;font-size:12px;line-height:20px;background:#edefee url(../assets/images/1.jpg) no-repeat;}
+            .tag{padding-top:8px;width:73px;font-size:12px;line-height:20px;background:#edefee url(../../static/images/1.jpg) no-repeat;}
          }
        }
     }

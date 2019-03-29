@@ -2,7 +2,7 @@
   <div>
       <nav class="set-nav">        
           <router-link to="/" class="set-logo">
-            <img src="./assets/images/logo.png" style="width:150px;height:47px;">
+            <img src="./assets/images/logo.png"  @click="toOpen" style="width:150px;height:47px;">
           </router-link>
           <!-- <ul>
             <li><span class="iconfont icon-denglu"></span>登录/注册</li>
@@ -12,7 +12,7 @@
       <div id="app">
          <div class="core" style="margin-bottom:1px;">
 
-          <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]+') 100%'">
+          <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]+');background-size:100%;'">
                  <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 240px;text-shadow:5px 2px 6px #000;">{{watchTitle.name}}<span v-if="watchTitle.name != 'China Open Data'">开放数据</span></dd>
                   <div style="margin-bottom:30px;">
                     <el-input placeholder="请输入内容" v-model="keyWord" class="input-with-select" style="width:500px;" @keyup.native.enter='switchBtn(false)'>
@@ -20,7 +20,7 @@
                     </el-input>
                   </div>
                   <div>
-                         <el-button  type="primary" style="width:175px;" @click="switchBtn(true)">
+                         <el-button  type="primary" style="width:175px;background:#44e2c9;" @click="switchBtn(true)">
                            <span class="iconfont icon-earth"></span>
                            浏览所有数据信息
                          </el-button>
@@ -38,7 +38,7 @@
             background-color="#fff"
             text-color="#113355"
             active-text-color="#ffd04b">
-                  <el-menu-item v-for="(item,index) in menuList" :key="item" :index="index" style="text-align:center;">
+                  <el-menu-item v-for="(item,index) in groupList" :key="item.Ename" :index="index" style="text-align:center;">
                       <div>
                           <div :class="'iconfont icon-'+item.icon" style="font-size:20px;"></div>
                           <div>{{item.name}}</div>
@@ -52,7 +52,9 @@
         <footer class="set-footer">
             <div class="footer-main">
                <div>
-                  <p style="font-size:10px;line-height:12px;margin:7px 12px;"> © 上海数据交易中心有限公司  地址:上海市静安区万荣路1268号A座3层<br/>沪ICP备17003045号</p>
+                  <p style="font-size:10px;line-height:12px;margin:7px 12px;"> © 上海数据交易中心有限公司  地址:上海市静安区万荣路1268号A座3层<br/>
+                  <a href="//www.miibeian.gov.cn/" target="_blank">沪ICP备17003045号</a>
+                  </p>
                </div>
             </div>
         </footer>
@@ -77,16 +79,16 @@ export default {
           require("./assets/images/city/sz.png"),
           require("./assets/images/city/1.png"),
           ],
-        activeIndex:'9',
-        menuList:[
+        activeIndex:9,
+        groupList:[
           {Ename:"beijing",name:"北京",icon:"city_beijing",src:'bj.png'},
           {Ename:"shanghai",name:"上海",icon:"city_shanghai",src:'sh.png'},
           // {Ename:"guangdong",name:"广东",icon:"city_guangzhou",src:'gz.png'},
           // {Ename:"chongqing",name:"重庆",icon:"city_zhongqing",src:'cq.png'},
           // {Ename:"shandong",name:"山东",icon:"city_qingdao",src:'sd.png'},
-          // {Ename:"hainan",name:"海南",icon:"city_sanya",src:'hn.png'},
+          {Ename:"hainan",name:"海南",icon:"city_sanya",src:'hn.png'},
           {Ename:"wuhan",name:"武汉",icon:"city_wuhan",src:'wh.png'},
-          // {Ename:"zhejiang",name:"浙江",icon:"hangzhou",src:'zj.png'},
+          {Ename:"zhejiang",name:"浙江",icon:"hangzhou",src:'zj.png'},
           // {Ename:"shenzhen",name:"深圳",icon:"city_shenzhen",src:'sz.png'}
         ],
         keyWord:'',
@@ -95,9 +97,10 @@ export default {
   },
   watch:{
      activeIndex(New,Old){
-          this.watchTitle = New =='-1'? {Ename:"*",name:"China Open Data"}:this.menuList[New]
+          console.log(New)
+          this.watchTitle = New =='9'? {Ename:"*",name:"China Open Data"}:this.groupList[New]
           //organization状态管理
-          this.setOrganization(this.menuList[New])
+          this.setOrganization(this.groupList[New])
        }
   },
   computed: {
@@ -122,6 +125,10 @@ export default {
           this.$router.push({ 
                 name:'home',params:{channel:JSON.stringify(this.watchTitle)}
                 })
+    },
+    toOpen(){
+      console.log(9999)
+      this.activeIndex = '9'      
     }
   },
   mounted(){
@@ -172,6 +179,7 @@ export default {
   .set-section{
     width: 100%;
     background:darkcyan;
+    background-size: cover;
     position:absolute;
     display:flex;
     flex-direction:column;

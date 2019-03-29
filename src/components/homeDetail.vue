@@ -29,6 +29,7 @@
               style="text-align:center;margin:22px 0 75px;"
               background
               @current-change="handleCurrentChange"
+              :page-size="20"
               layout="prev, pager, next"
               :total="datalist.count">
             </el-pagination>
@@ -39,7 +40,7 @@
 import listSon from '@/components/listSon'
 import {mapActions,mapState} from "vuex";
 export default {
-  props:['switchStatus','menu','format'],
+  props:['switchStatus','menu','format','group'],
   data () {
     return {
         datalist:{},
@@ -61,26 +62,28 @@ export default {
         },
     watch:{
      organization(New,Old){
-           this.getPackageData(0)
+           this.getPackageData(1)
        },
      keyWord(New,Old){
-           this.getPackageData(0)
+           this.getPackageData(1)
        },
      sortName(New,Old){
-           this.getPackageData(0)
+           this.getPackageData(1)
      },
      menu(){
-       console.log(this.menu)
-       this.getPackageData(0)
+       this.getPackageData(1)
+     },
+    group(){
+      console.log(this.group)
+       this.getPackageData(1)
      },
      format(){
-
-       this.getPackageData(0)
+       this.getPackageData(1)
      }
     },
     mounted () {
        this.keyWord = JSON.parse(this.$route.params.channel).keyWord
-       this.getPackageData(0)
+       this.getPackageData(1)
        console.log(this.menu)
       // this.$store.commit("SET_STATE")
       // this.$store.dispatch("setState")
@@ -92,27 +95,31 @@ export default {
         window.scrollTo(0,0);
       },
       getPackageData(val){
+        console.log(9999)
           var _that = this
+          console.log(_that.menu)
+          if(!_that.menu){
+            _that.menu = {Ename:'*'}
+          }
+          if(!_that.group){
+            _that.group = {name:'China Open Data'}
+          }
+          var url = ''
+          console.log(this.group.name =="China Open Data")
+          if(this.group.name == "China Open Data"){
+           url =  '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=groups:'+_that.menu.Ename+' AND organization:'+this.organization.Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
+          }else{
+           url =  '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=groups:'+_that.menu.Ename+' AND organization:'+this.group.Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
+          }
           this.$axios.get(
-            '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=organization:'+this.organization.Ename+'&start='+val+'&rows=200&sort='+this.sortName+'+desc'
+            url
           )
                   .then((res)=>{
                     if(res.status == 200){
                           this.datalist = res.data.result
                           // console.log(this.datalist.results)
                           console.log(_that.menu)
-                      if(_that.menu){
-                        // console.log(_that.menu.Ename)
-                        // console.log(this.datalist.groups[0].name)
-                        var temp = []
-                        for(var i=0;i<this.datalist.results.length;i++){
-                          if(this.datalist.results[i].groups[0].name == _that.menu.Ename){
-                                temp.push(this.datalist.results[i])
-                          }
-                        }
-                        this.datalist.results = temp
-                        this.datalist.count = this.datalist.results.length
-                      }
+
                       if(_that.format){
                         var temp = []
                         for(var i=0;i<this.datalist.results.length;i++){
