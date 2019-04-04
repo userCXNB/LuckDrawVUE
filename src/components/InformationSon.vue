@@ -29,7 +29,7 @@ export default {
   methods: {
       toInformation(code){
         this.$router.push({
-            name:'content',params:{code:code,name:'行业资讯'}
+            name:'content',params:{code:code,name:'Information'}
             })
       }
   },

@@ -3,7 +3,7 @@
       <dl>
           <dt style="font-size:12px;line-height:61px;color:gray;">我的位置:
               <router-link to='/'>首页</router-link>
-              >{{data.contentName}}
+              >{{data.contentName=='Scenario'? '应用场景':'行业资讯'}}
               >正文
           </dt>
           <dd style="font-size:41px;line-height:61px;">{{data.title}}</dd>
@@ -36,6 +36,7 @@ export default {
  
   mounted() {
   this.setSwitchStatus({banner:false,menu:false})
+  window.scrollTo(0,0);
   }
 }
 </script>

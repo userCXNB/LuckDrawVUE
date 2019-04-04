@@ -28,6 +28,7 @@
             <el-pagination
               style="text-align:center;margin:22px 0 75px;"
               background
+              :current-page="currentPage"
               @current-change="handleCurrentChange"
               :page-size="20"
               layout="prev, pager, next"
@@ -46,6 +47,7 @@ export default {
         datalist:{},
         keyWord:"",
         sortName:"title_string",
+        currentPage:1,
         sortlist:[
           {name:'名称',Ename:'title_string'},
           {name:'时间',Ename:'metadata_modified'}
@@ -62,19 +64,18 @@ export default {
         },
     watch:{
      organization(New,Old){
-           this.getPackageData(1)
+       this.getPackageData(1)
        },
      keyWord(New,Old){
-           this.getPackageData(1)
+       this.getPackageData(1)
        },
      sortName(New,Old){
-           this.getPackageData(1)
+       this.getPackageData(1)
      },
      menu(){
        this.getPackageData(1)
      },
     group(){
-      console.log(this.group)
        this.getPackageData(1)
      },
      format(){
@@ -84,18 +85,19 @@ export default {
     mounted () {
        this.keyWord = JSON.parse(this.$route.params.channel).keyWord
        this.getPackageData(1)
-       console.log(this.menu)
+       console.log('homedetail')
       // this.$store.commit("SET_STATE")
       // this.$store.dispatch("setState")
     },
      methods: {
        ...mapActions(['setState']),
-      handleCurrentChange(val){
+      handleCurrentChange(val){    
         this.getPackageData(val)
+        this.currentPage = val
         window.scrollTo(0,0);
       },
       getPackageData(val){
-        console.log(9999)
+       this.currentPage = 1
           var _that = this
           console.log(_that.menu)
           if(!_that.menu){
@@ -107,7 +109,8 @@ export default {
           var url = ''
           console.log(this.group.name =="China Open Data")
           if(this.group.name == "China Open Data"){
-           url =  '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=groups:'+_that.menu.Ename+' AND organization:'+this.organization.Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
+            console.log(this.$route.params.channel)
+           url =  '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=groups:'+_that.menu.Ename+' AND organization:'+JSON.parse(this.$route.params.channel).Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
           }else{
            url =  '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=groups:'+_that.menu.Ename+' AND organization:'+this.group.Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
           }

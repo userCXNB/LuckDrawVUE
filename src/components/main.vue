@@ -81,7 +81,7 @@ export default {
     toScenario(code){
         console.log(code)
           this.$router.push({  
-                name:'content',params:{code:code,name:'应用场景'}
+                name:'content',params:{code:code,name:'Scenario'}
                 })
     },
     loadMore: function(){

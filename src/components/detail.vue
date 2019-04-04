@@ -1,7 +1,7 @@
 <template>
    <div class="set_home_right" style="padding:0px 97px 0 30px;">
       <div style="font-size:41px;line-height:61px;margin-top:55px;">{{detail.title}}</div>
-      <el-button plain><a :href='detail.url'>前往资源</a></el-button>
+      <el-button plain @click.native="toHref">前往资源</el-button>
       <div style="font-size:15px;line-height:22px;margin:35px 0 48px;color:gray">
         {{detail.notes}}
       </div>
@@ -63,9 +63,20 @@ export default {
 
   },
   methods: {
+    toHref(){
+      window.location.href =this.detail.url
+    },
+    goBack () {
+        // alert('9999')
+        history.pushState(null, null, document.URL);
+        this.DswitchStatus()
+        console.log("点击了浏览器的返回按钮");
+        // sessionStorage.clear();
+        // window.history.back();
+    },
   },
   mounted() {
-     console.log(this.detail)
+     console.log('detail')
      this.tableData[0].name = this.detail.organization.title
      this.tableData[1].name = this.detail.author
      this.tableData[2].name = this.detail.groups[0].title
@@ -75,6 +86,17 @@ export default {
      this.tableData[6].name = this.detail.resources[0].last_modified
      this.tableData[7].name = this.detail.resources[0].created
 
+
+       if (window.history && window.history.pushState) {
+        // 向历史记录中插入了当前页
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', this.goBack, false);
+      }
+
+  }, 
+  destroyed () {
+      window.removeEventListener('popstate', this.goBack, false);
+      window.history.back();
   }
 }
 </script>

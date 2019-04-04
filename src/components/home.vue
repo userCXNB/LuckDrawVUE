@@ -11,14 +11,14 @@
           </div>
         <div class="set_home">
           <div class="set_home_left">
-            <div class="set_home_left_title">资源方</div>
+            <div class="set_home_left_title" @click="group(-1)">资源方</div>
             <el-dropdown style="width:300px;">
               <el-button type="primary" style="width:300px;background:#fff;color:#113355;">
                 全部<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown" style="width:300px;">
                 <el-dropdown-item  style="text-align:center" v-for="(item,index) in groupList" :key="index"  @click.native="group(index)"
-                ><img :src="item.src" style="margin-right:15px;" alt="">{{item.name}}</el-dropdown-item>
+                >{{item.name}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <div style="padding:17px 21px 71px;">
@@ -49,13 +49,13 @@
               </dl>
 
             </div>
-            <div class="set_home_left_title">数据领域</div>
+            <div class="set_home_left_title" @click="menu(-1)">数据领域</div>
             <el-button plain type="info" class="menuList" v-for="(item,index) in menuList" :key="index" @click.native="menu(index)"
              :style='index==menuindex? "width:300px;margin-left:0px;margin-bottom:2px;background:#52e4cd;":"width:300px;margin-left:0px;margin-bottom:2px;background:#fff;"'>
              {{item.name}}
              </el-button>
              <el-button plain type="info" v-if='JSON.parse($route.params.channel).name=="China Open Data"' class="menuList" @click.native="loadMore" style="width:300px;margin-left:0px;margin-bottom:2px;background:gray;">加载更多</el-button>
-            <div class="set_home_left_title">文件格式</div>
+            <div class="set_home_left_title" @click="format(-1)">文件格式</div>
             <el-dropdown style="width:300px;" v-if='!status'>
               <el-button type="primary" style="width:300px;background:#fff;color:#113355;">
                 全部<i class="el-icon-arrow-down el-icon--right"></i>
@@ -113,6 +113,29 @@ export default {
               {name:"信用服务",Ename:"xyfw"},
               {name:"公共安全",Ename:"safety"},
           ],
+          shandong:[
+              {name:"气象",Ename:"qx"},
+              {name:"就业",Ename:"jy"},
+              {name:"安全监管",Ename:"aqjg"},
+              {name:"文化",Ename:"wh"},
+              {name:"医疗",Ename:"yl"},
+              {name:"教育",Ename:"jyd"},
+              {name:"科技",Ename:"kj"},
+              {name:"卫生",Ename:"ws"},
+              {name:"信用",Ename:"xy"},
+              {name:"质量",Ename:"zl"},
+              {name:"统计",Ename:"tj"},
+              {name:"企业登记监管",Ename:"qydjjg"},
+              {name:"农业",Ename:"ny"},
+              {name:"资源",Ename:"zy"},
+              {name:"金融",Ename:"jr"},
+              {name:"海洋",Ename:"hy"},
+              {name:"地理",Ename:"dl"},
+              {name:"交通运输",Ename:"jtys"},
+              {name:"生态环境",Ename:"sthj"},
+              {name:"社会保障",Ename:"shbz"},
+              {name:"其它",Ename:"qt"},
+          ],
           beijing:[
               {name:"财税金融",Ename:"csjr"},
               {name:"旅游住宿",Ename:"lyzs"},
@@ -164,7 +187,7 @@ export default {
           {Ename:"shanghai",name:"上海",icon:"city_shanghai",src:'sh.png'},
           // {Ename:"guangdong",name:"广东",icon:"city_guangzhou",src:'gz.png'},
           // {Ename:"chongqing",name:"重庆",icon:"city_zhongqing",src:'cq.png'},
-          // {Ename:"shandong",name:"山东",icon:"city_qingdao",src:'sd.png'},
+          {Ename:"shandong",name:"山东",icon:"city_qingdao",src:'sd.png'},
           {Ename:"hainan",name:"海南",icon:"city_sanya",src:'hn.png'},
           {Ename:"wuhan",name:"武汉",icon:"city_wuhan",src:'wh.png'},
           {Ename:"zhejiang",name:"浙江",icon:"hangzhou",src:'zj.png'},
@@ -189,7 +212,7 @@ export default {
       homeDetail,detail
     },
     watch:{
-      menuList(){}
+      menuList(){},
     },
     methods: {
       loadMore(){
@@ -271,6 +294,7 @@ export default {
                     margin:15px 0 4px;
                     margin-top:0px;
                     font-size:20px;
+                    cursor:pointer;
                     background:#52e4cd;
                     text-align:center;
                     line-height:54px;

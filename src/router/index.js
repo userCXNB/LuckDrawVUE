@@ -26,7 +26,7 @@ export default new Router({
       name: 'contentSon',
       component: contentSon
     },{
-      path: '/content',
+      path: '/content/:name/:code',
       name: 'content',
       component: content
     },{
@@ -44,7 +44,18 @@ export default new Router({
     },{
       path: '/home/:channel',
       name: 'home',
-      component: home
+      component: home,
+      // children:[
+      //   {
+      //     path: '/detail',
+      //     name: 'detail',
+      //     component: detail
+      //   },{
+      //     path: '/homeDetail',
+      //     name: 'homeDetail',
+      //     component: homeDetail
+      //   }
+      // ]
     },{
       path: '/homeDetail',
       name: 'homeDetail',

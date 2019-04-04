@@ -12,8 +12,9 @@
       <div id="app">
          <div class="core" style="margin-bottom:1px;">
 
-          <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]+');background-size:100%;'">
-                 <dd style="font:44px/70px '微软雅黑';color:#fff;margin-top: 240px;text-shadow:5px 2px 6px #000;">{{watchTitle.name}}<span v-if="watchTitle.name != 'China Open Data'">开放数据</span></dd>
+          <section class="set-section" v-if="switchStatus.banner" :style="'background:url('+cssSRC[activeIndex]">
+                  <dd style="font:44px/70px '';margin-top: 240px;" class="font-color">{{watchTitle.name}}<span v-if="watchTitle.name != 'China Open Data'">开放数据</span></dd>
+                  <!-- text-shadow:5px 2px 6px #000; -->
                   <div style="margin-bottom:30px;">
                     <el-input placeholder="请输入内容" v-model="keyWord" class="input-with-select" style="width:500px;" @keyup.native.enter='switchBtn(false)'>
                       <el-button slot="append" icon="el-icon-search" style="height:54px;" @click="switchBtn(false)"></el-button>
@@ -68,27 +69,27 @@ export default {
     data () {
     return {
         cssSRC:[
-          require("./assets/images/city/bj.png"),
-          require("./assets/images/city/sh.png"),
-          require("./assets/images/city/gz.png"),
-          require("./assets/images/city/cq.png"),
-          require("./assets/images/city/sd.png"),
-          require("./assets/images/city/hn.png"),
-          require("./assets/images/city/wh.png"),
-          require("./assets/images/city/zj.png"),
-          require("./assets/images/city/sz.png"),
-          require("./assets/images/city/1.png"),
+          "../static/images/city/bj.png) center/100%",
+          "../static/images/city/sh.png) center/100%",
+          // "../static/images/city/gz.png) center/100%",
+          // "../static/images/city/cq.png) center/100%",
+          "../static/images/city/sd.png) center/100%",
+          "../static/images/city/hn.png) center/100%",
+          "../static/images/city/wh.png) center/100%",
+          "../static/images/city/zj.png) center/100%",
+          // "../static/images/city/sz.png) center/100%",
+          "../static/images/city/1.jpg) center/100%",
           ],
-        activeIndex:9,
+        activeIndex:6,
         groupList:[
-          {Ename:"beijing",name:"北京",icon:"city_beijing",src:'bj.png'},
-          {Ename:"shanghai",name:"上海",icon:"city_shanghai",src:'sh.png'},
+          {Ename:"beijing",name:"北京市",icon:"city_beijing",src:'bj.png'},
+          {Ename:"shanghai",name:"上海市",icon:"city_shanghai",src:'sh.png'},
           // {Ename:"guangdong",name:"广东",icon:"city_guangzhou",src:'gz.png'},
           // {Ename:"chongqing",name:"重庆",icon:"city_zhongqing",src:'cq.png'},
-          // {Ename:"shandong",name:"山东",icon:"city_qingdao",src:'sd.png'},
-          {Ename:"hainan",name:"海南",icon:"city_sanya",src:'hn.png'},
-          {Ename:"wuhan",name:"武汉",icon:"city_wuhan",src:'wh.png'},
-          {Ename:"zhejiang",name:"浙江",icon:"hangzhou",src:'zj.png'},
+          {Ename:"shandong",name:"山东省",icon:"city_qingdao",src:'sd.png'},
+          {Ename:"hainan",name:"海南省",icon:"city_sanya",src:'hn.png'},
+          {Ename:"wuhan",name:"武汉市",icon:"city_wuhan",src:'wh.png'},
+          {Ename:"zhejiang",name:"浙江省",icon:"hangzhou",src:'zj.png'},
           // {Ename:"shenzhen",name:"深圳",icon:"city_shenzhen",src:'sz.png'}
         ],
         keyWord:'',
@@ -98,9 +99,9 @@ export default {
   watch:{
      activeIndex(New,Old){
           console.log(New)
-          this.watchTitle = New =='9'? {Ename:"*",name:"China Open Data"}:this.groupList[New]
+          this.watchTitle = New =='6'? {Ename:"*",name:"China Open Data"}:this.groupList[New]
           //organization状态管理
-          this.setOrganization(this.groupList[New])
+          this.setOrganization(this.watchTitle)
        }
   },
   computed: {
@@ -128,7 +129,7 @@ export default {
     },
     toOpen(){
       console.log(9999)
-      this.activeIndex = '9'      
+      this.activeIndex = '6'      
     }
   },
   mounted(){
@@ -189,6 +190,11 @@ export default {
     margin:0 auto;
     height:720px;
     text-align:center;
+    .font-color{
+          background: linear-gradient(to left,#64a9e4,#8eed9a);
+          -webkit-background-clip: text;
+          color: transparent;
+    }
 
   }
   .el-input__inner {
