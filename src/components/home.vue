@@ -205,14 +205,17 @@ export default {
       groupIndex:-1,
       detail:{},
       loadstatus:true,
-      status:true
+      status:true,
+      storage:window.localStorage,
     }
   },
       components:{
       homeDetail,detail
     },
     watch:{
-      menuList(){},
+      menuindex(){
+        console.log(menuindex)
+      }
     },
     methods: {
       loadMore(){
@@ -237,17 +240,52 @@ export default {
           this.status=false
           this.detail = data
           console.log(data,700000)
+                      this.storage.home=JSON.stringify({
+              menuindex:this.menuindex,
+              formatIndex:this.formatIndex,
+              groupIndex:this.groupIndex,
+              loadstatus:this.loadstatus,
+              status:this.status,
+            });
       },
       DswitchStatus(){
          this.status = true
+                     this.storage.home=JSON.stringify({
+              menuindex:this.menuindex,
+              formatIndex:this.formatIndex,
+              groupIndex:this.groupIndex,
+              loadstatus:this.loadstatus,
+              status:this.status,
+            });
       },
       menu(ind){
-        this.menuindex = ind
-        console.log(this.menuindex)
+        console.log(ind,this.menuindex)
+        if(ind==this.menuindex){
+           this.menuindex = -1
+        }else{
+           this.menuindex = ind
+        }
+            this.storage.home=JSON.stringify({
+              menuindex:this.menuindex,
+              formatIndex:this.formatIndex,
+              groupIndex:this.groupIndex,
+              loadstatus:this.loadstatus,
+              status:this.status,
+            });
       },
       format(ind){
-        // console.log(this.formatIndex)
-        this.formatIndex = ind
+        if(ind==this.formatIndex){
+           this.formatIndex = -1
+        }else{
+           this.formatIndex = ind
+        }
+            this.storage.home=JSON.stringify({
+              menuindex:this.menuindex,
+              formatIndex:this.formatIndex,
+              groupIndex:this.groupIndex,
+              loadstatus:this.loadstatus,
+              status:this.status,
+            });
       },
       group(ind){
          this.groupIndex = ind
@@ -256,6 +294,13 @@ export default {
          this.DswitchStatus()
          this.loadstatus = false
          this.menuList = this.organization[this.groupList[this.groupIndex].Ename]
+            this.storage.home=JSON.stringify({
+              menuindex:this.menuindex,
+              formatIndex:this.formatIndex,
+              groupIndex:this.groupIndex,
+              loadstatus:this.loadstatus,
+              status:this.status,
+            });
       }
     },
     directives:{
@@ -270,11 +315,22 @@ export default {
       }
     },
     mounted () {
+      console.log(this.$route)
       this.organization.all = this.organization.wuhan
       this.menuList = this.organization.all
       if(JSON.parse(this.$route.params.channel).Ename!='*'){
           this.menuList = this.organization[JSON.parse(this.$route.params.channel).Ename]
       }
+            console.log(this.storage)
+            if(this.storage.home){
+              console.log(JSON.parse(this.storage.home).menuindex)
+              this.menuindex = JSON.parse(this.storage.home).menuindex
+              this.formatIndex = JSON.parse(this.storage.home).formatIndex
+              this.groupIndex = JSON.parse(this.storage.home).groupIndex
+              this.loadstatus = JSON.parse(this.storage.home).loadstatus
+              this.status = JSON.parse(this.storage.home).status
+            }
+
       // this.$store.commit("SET_STATE")
       // this.$store.dispatch("setState")
     }
@@ -303,8 +359,13 @@ export default {
                       
                     }
                  }
-                 .el-button.is-plain:focus, .el-button.is-plain:hover{
+                 .el-button.is-plain:hover{
                    background:#52e4cd!important;
+                 }
+                 .el-button.is-plain:focus{
+                   border: 1px solid #DCDFE6;
+                   color: #909399;
+                   border-color: #d3d4d6;
                  }
               }
         }

@@ -9,6 +9,9 @@ let getters = {
     },
     getOrganization:(state)=>{
       return state.organization
+    },
+    getFrameData:(state)=>{
+      return state.frameData
     }
 };
 

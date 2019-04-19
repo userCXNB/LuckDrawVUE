@@ -37,6 +37,7 @@ export default {
   mounted() {
   this.setSwitchStatus({banner:false,menu:false})
   window.scrollTo(0,0);
+
   }
 }
 </script>

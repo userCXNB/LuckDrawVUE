@@ -16,7 +16,11 @@ let mutations = {
     },
     [types.SET_ORGANIZATION]:(state,payload)=>{
        state.organization = payload
-   }
+   },
+   [types.SET_FRAMEDATA]:(state,payload)=>{
+      console.log(payload)
+      state.frameData.name = payload
+   },
 
 };
 

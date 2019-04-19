@@ -4,10 +4,26 @@
           <router-link to="/" class="set-logo">
             <img src="./assets/images/logo.png"  @click="toOpen" style="width:150px;height:47px;">
           </router-link>
-          <!-- <ul>
-            <li><span class="iconfont icon-denglu"></span>登录/注册</li>
-            <li><span class="iconfont icon-lianxi"></span>联系我们</li>
-          </ul> -->
+          <ul>
+            <!-- <li>
+                <span class="iconfont icon-denglu"></span>
+                <el-button type="text" @click="centerDialogVisible = true">登录</el-button>
+            </li> -->
+            <li>
+                <!-- <el-button type="text" @click="centerDialogVisible = true">8888</el-button> -->
+                <el-dropdown :hide-on-click="false">
+                  <span class="el-dropdown-link">
+                    下拉菜单
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>基本资料</el-dropdown-item>
+                    <el-dropdown-item>账号设置</el-dropdown-item>
+                    <el-dropdown-item>退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+            </li>
+            <!-- <li><span class="iconfont icon-lianxi"></span>联系我们</li> -->
+          </ul>
       </nav>
       <div id="app">
          <div class="core" style="margin-bottom:1px;">
@@ -26,7 +42,7 @@
                            浏览所有数据信息
                          </el-button>
                   </div>
-                  <div style="height:32px;width:1180px;align-self:center;background:#fff;margin-top:262px;">
+                  <div style="height:32px;width:1180px;align-self:center;background:#fff;position:absolute;bottom:0;">
                      <div style="background:#83e2cc;border-top:2px solid #48ba89;height:14px;margin-top:0;"></div>
                   </div>
           </section>
@@ -47,6 +63,7 @@
                   </el-menu-item>
           </el-menu>
           <router-view/>
+          <router-view :name="frameData.name" :centerDialogVisible="true"/>
         </div>
 
       </div>
@@ -102,11 +119,14 @@ export default {
           this.watchTitle = New =='6'? {Ename:"*",name:"China Open Data"}:this.groupList[New]
           //organization状态管理
           this.setOrganization(this.watchTitle)
+       },
+       frameData(){
+         console.log(this.frameData)
        }
   },
   computed: {
             ...mapState([
-                'switchStatus','organization'
+                'switchStatus','organization','frameData'
             ]),
         }, 
   methods: {
@@ -136,10 +156,21 @@ export default {
      if(this.$route.path=='/'){
          this.setSwitchStatus({banner:true,menu:true})
      }
+    console.log(this.frameData)
+
+    // (function isMobile(){
+    //     if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+    //         // return true;  // 移动端
+    //         alert("移动端")
+    //     }else{
+    //         // return false;  // PC端
+    //         alert("PC端")
+    //     }
+    // })()
   } 
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
   
   #app{
     
@@ -213,6 +244,13 @@ export default {
   .el-menu{
     display: flex;
     justify-content: space-around;
+  }
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
   }
   .set-footer{
     background:#fff;

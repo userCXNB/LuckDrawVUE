@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import './css/global.css'
-import '../node_modules/plyr/dist/plyr.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import router from './router'
@@ -13,6 +12,7 @@ import store from './store';
 import axios from "axios";
 import "xlsx/dist/xlsx.core.min.js";
 import './mock/index'
+import 'babel-polyfill'
 import md5 from 'js-md5';
 import infiniteScroll from 'vue-infinite-scroll'//下拉加载数据
 import filters from '@/filters/filters.js';//main.js里注册filter
@@ -23,6 +23,7 @@ Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 //全局注册
 Vue.prototype.$echarts = echarts 
 Vue.prototype.$axios = axios 
+
 Vue.prototype.$md5 = md5;
 Vue.use(animated)
 Vue.use(infiniteScroll)
