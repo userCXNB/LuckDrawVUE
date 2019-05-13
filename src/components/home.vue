@@ -25,7 +25,7 @@
               <dl v-if='groupIndex == -1'>
                 <td>
                   <img v-if="JSON.parse(this.$route.params.channel).Ename !='*'" :src="'../../static/images/city/'+JSON.parse($route.params.channel).src" style="width:100%;" alt="">
-                  <img v-if="JSON.parse(this.$route.params.channel).Ename =='*'" src="../../static/images/city/1.png" style="width:100%;" alt="">
+                  <img v-if="JSON.parse(this.$route.params.channel).Ename =='*'" src="../../static/images/city/1.jpg" style="width:100%;" alt="">
                 </td>
                 <dd style="border-top:2px solid #52e4cd;margin-top:33px;position:relative">
                     <div style="position:absolute;top:-21px;left:81px;background:#fff;text-align:center;color:#52e4cd;width:95px;">
@@ -54,7 +54,6 @@
              :style='index==menuindex? "width:300px;margin-left:0px;margin-bottom:2px;background:#52e4cd;":"width:300px;margin-left:0px;margin-bottom:2px;background:#fff;"'>
              {{item.name}}
              </el-button>
-             <el-button plain type="info" v-if='JSON.parse($route.params.channel).name=="China Open Data"' class="menuList" @click.native="loadMore" style="width:300px;margin-left:0px;margin-bottom:2px;background:gray;">加载更多</el-button>
             <div class="set_home_left_title" @click="format(-1)">文件格式</div>
             <el-dropdown style="width:300px;" v-if='!status'>
               <el-button type="primary" style="width:300px;background:#fff;color:#113355;">
@@ -84,114 +83,34 @@ import detail from '@/components/detail'
 export default {
   data () {
     return { 
-      menuList:[],
-      organization:{
-          wuhan:[
-              {name:"公共服务",Ename:"public_service"},
-              {name:"政府机构",Ename:"government_org"},
-              {name:"能源环境",Ename:"energy_environment"},
-              {name:"经济发展",Ename:"economic"},
-              {name:"农业农村",Ename:"agricultural"},
-              {name:"文化娱乐",Ename:"culture"},
-              {name:"教育科技",Ename:"education"},
-              {name:"金融服务",Ename:"financial_service"},
-              {name:"公共安全",Ename:"safety"},
-              {name:"交通服务",Ename:"traffic"},
-              {name:"医疗卫生",Ename:"healthy"},
-              {name:"法律服务",Ename:"legal_service"},
-            ],
-          shanghai:[
-              {name:"城市建设",Ename:"csjs"},
-              {name:"卫生健康",Ename:"wsjk"},
-              {name:"道路交通",Ename:"dljt"},
-              {name:"文化休闲",Ename:"whxx"},
-              {name:"社会发展",Ename:"shfz"},
-              {name:"经济建设",Ename:"jjjs"},
-              {name:"民生服务",Ename:"msfw"},
-              {name:"机构团体",Ename:"jgtt"},
-              {name:"资源环境",Ename:"zyhj"},
-              {name:"信用服务",Ename:"xyfw"},
-              {name:"公共安全",Ename:"safety"},
-          ],
-          shandong:[
-              {name:"气象",Ename:"qx"},
-              {name:"就业",Ename:"jy"},
-              {name:"安全监管",Ename:"aqjg"},
-              {name:"文化",Ename:"wh"},
-              {name:"医疗",Ename:"yl"},
-              {name:"教育",Ename:"jyd"},
-              {name:"科技",Ename:"kj"},
-              {name:"卫生",Ename:"ws"},
-              {name:"信用",Ename:"xy"},
-              {name:"质量",Ename:"zl"},
-              {name:"统计",Ename:"tj"},
-              {name:"企业登记监管",Ename:"qydjjg"},
-              {name:"农业",Ename:"ny"},
-              {name:"资源",Ename:"zy"},
-              {name:"金融",Ename:"jr"},
-              {name:"海洋",Ename:"hy"},
-              {name:"地理",Ename:"dl"},
-              {name:"交通运输",Ename:"jtys"},
-              {name:"生态环境",Ename:"sthj"},
-              {name:"社会保障",Ename:"shbz"},
-              {name:"其它",Ename:"qt"},
-          ],
-          beijing:[
-              {name:"财税金融",Ename:"csjr"},
-              {name:"旅游住宿",Ename:"lyzs"},
-              {name:"餐饮美食",Ename:"cyms"},
-              {name:"医疗健康",Ename:"yljk"},
-              {name:"文体娱乐",Ename:"wtyl"},
-              {name:"消费购物",Ename:"xfgw"},
-              {name:"生活安全",Ename:"shaq"},
-              {name:"宗教信仰",Ename:"zjxy"},
-              {name:"教育科研",Ename:"jyky"},
-              {name:"社会保障",Ename:"shbz"},
-              {name:"劳动就业",Ename:"ldjy"},
-              {name:"生活服务",Ename:"shfw"},
-              {name:"房屋住宅",Ename:"fwzz"},
-              {name:"政府机构与社会团体",Ename:"zfjgyshtt"},
-              {name:"环境与资源保护",Ename:"hjyzybh"},
-              {name:"企业服务",Ename:"qyfw"},
-              {name:"经济建设",Ename:"jjjs"},
-              {name:"信用服务",Ename:"xyfw"},
-              {name:"交通服务",Ename:"traffic"},
-              {name:"农业农村",Ename:"agricultural"},
-          ],
-          hainan:[
-              {name:"财政",Ename:"cz"},
-              {name:"旅游服务业",Ename:"lyfwy"},
-              {name:"科技教育",Ename:"kjjy"},
-              {name:"文化卫生体育",Ename:"whwsty"},
-              {name:"民政社区",Ename:"mzsq"}
-          ],
-          zhejiang:[
-             {name:"生态环境",Ename:"sthj"},
-             {name:"商贸流通",Ename:"smlt"},
-             {name:"社保就业",Ename:"sbjy"},
-             {name:"教育文化",Ename:"jywh"},
-             {name:"工业农业",Ename:"gyny"},
-             {name:"交通运输",Ename:"jtys"},
-             {name:"气象服务",Ename:"qxfw"},
-             {name:"地理空间",Ename:"dlkj"},
-             {name:"科技创新",Ename:"kjcx"},
-             {name:"市场监督",Ename:"scjd"},
-             {name:"安全生产",Ename:"aqsc"},
-             {name:"城建住房",Ename:"cjzf"},
-             {name:"资源能源",Ename:"zyny"},
-             {name:"社会救助",Ename:"shjz"}
-          ],
-          all:[]},
+      menuList:[
+              {name:"经济",Ename:"economy"},
+              {name:"金融",Ename:"financial"},
+              {name:"信用",Ename:"credit"},
+              {name:"文旅",Ename:"travel"},
+              {name:"交通",Ename:"transportation"},
+              {name:"安全",Ename:"security"},
+              {name:"健康",Ename:"health"},
+              {name:"教育科技",Ename:"tech"},
+              {name:"环境",Ename:"environment"},
+              {name:"建设",Ename:"construction"},
+              {name:"公共服务",Ename:"publicservice"},
+              {name:"社会",Ename:"society"}
+      ],
       groupList:[
           {Ename:"beijing",name:"北京",icon:"city_beijing",src:'bj.png'},
           {Ename:"shanghai",name:"上海",icon:"city_shanghai",src:'sh.png'},
-          // {Ename:"guangdong",name:"广东",icon:"city_guangzhou",src:'gz.png'},
-          // {Ename:"chongqing",name:"重庆",icon:"city_zhongqing",src:'cq.png'},
-          {Ename:"shandong",name:"山东",icon:"city_qingdao",src:'sd.png'},
-          {Ename:"hainan",name:"海南",icon:"city_sanya",src:'hn.png'},
-          {Ename:"wuhan",name:"武汉",icon:"city_wuhan",src:'wh.png'},
+          {Ename:"tianjin",name:"天津",icon:"city_tianjin",src:'tj.jpg'},
           {Ename:"zhejiang",name:"浙江",icon:"hangzhou",src:'zj.png'},
-          // {Ename:"shenzhen",name:"深圳",icon:"city_shenzhen",src:'sz.png'}
+          {Ename:"guangdong",name:"广东",icon:"guangdongshengbowuguan",src:'gd.jpg'},
+          {Ename:"shandong",name:"山东",icon:"city_qingdao",src:'sd.png'},
+          {Ename:"wuhan",name:"武汉",icon:"city_wuhan",src:'wh.png'},
+          {Ename:"henan",name:"河南",icon:"henanshengzhengfujizhongducha",src:'hn.jpg'},
+          {Ename:"shaanxi",name:"陕西",icon:"city_xian",src:'sx.jpg'},
+          {Ename:"jiangxi",name:"江西",icon:"jiangximiaozhai",src:'jx.jpg'},
+          {Ename:"hainan",name:"海南",icon:"city_sanya",src:'hn.png'},
+          {Ename:"guizhou",name:"贵州",icon:"guizhouzhuanhuan",src:'gz.jpg'},
+          {Ename:"guiyang",name:"贵阳",icon:"guiyang",src:'gy.jpg'},
         ],
       formatList:[
         {name:"CSV",src:require("../assets/images/csv.png")},
@@ -206,7 +125,6 @@ export default {
       detail:{},
       loadstatus:true,
       status:true,
-      storage:window.localStorage,
     }
   },
       components:{
@@ -218,45 +136,12 @@ export default {
       }
     },
     methods: {
-      loadMore(){
-          this.loadstatus = false
-          var arr = this.organization
-          // for()
-          this.menuList = arr.wuhan.concat(arr.shanghai,arr.beijing)
-          //数组去重
-          var tmpObj = {};
-          var result = [];
-          this.menuList.forEach(function(a) {
-            var key = (typeof a) + a.name;
-             console.log(key)
-            if (!tmpObj[key]) {
-              tmpObj[key] = true;
-              result.push(a);
-            }
-          })
-          this.menuList = result
-      },
       switchStatus (data) {
           this.status=false
           this.detail = data
-          console.log(data,700000)
-                      this.storage.home=JSON.stringify({
-              menuindex:this.menuindex,
-              formatIndex:this.formatIndex,
-              groupIndex:this.groupIndex,
-              loadstatus:this.loadstatus,
-              status:this.status,
-            });
       },
       DswitchStatus(){
          this.status = true
-                     this.storage.home=JSON.stringify({
-              menuindex:this.menuindex,
-              formatIndex:this.formatIndex,
-              groupIndex:this.groupIndex,
-              loadstatus:this.loadstatus,
-              status:this.status,
-            });
       },
       menu(ind){
         console.log(ind,this.menuindex)
@@ -265,13 +150,6 @@ export default {
         }else{
            this.menuindex = ind
         }
-            this.storage.home=JSON.stringify({
-              menuindex:this.menuindex,
-              formatIndex:this.formatIndex,
-              groupIndex:this.groupIndex,
-              loadstatus:this.loadstatus,
-              status:this.status,
-            });
       },
       format(ind){
         if(ind==this.formatIndex){
@@ -279,13 +157,7 @@ export default {
         }else{
            this.formatIndex = ind
         }
-            this.storage.home=JSON.stringify({
-              menuindex:this.menuindex,
-              formatIndex:this.formatIndex,
-              groupIndex:this.groupIndex,
-              loadstatus:this.loadstatus,
-              status:this.status,
-            });
+
       },
       group(ind){
          this.groupIndex = ind
@@ -293,14 +165,6 @@ export default {
          this.formatIndex = -1
          this.DswitchStatus()
          this.loadstatus = false
-         this.menuList = this.organization[this.groupList[this.groupIndex].Ename]
-            this.storage.home=JSON.stringify({
-              menuindex:this.menuindex,
-              formatIndex:this.formatIndex,
-              groupIndex:this.groupIndex,
-              loadstatus:this.loadstatus,
-              status:this.status,
-            });
       }
     },
     directives:{
@@ -316,20 +180,6 @@ export default {
     },
     mounted () {
       console.log(this.$route)
-      this.organization.all = this.organization.wuhan
-      this.menuList = this.organization.all
-      if(JSON.parse(this.$route.params.channel).Ename!='*'){
-          this.menuList = this.organization[JSON.parse(this.$route.params.channel).Ename]
-      }
-            console.log(this.storage)
-            if(this.storage.home){
-              console.log(JSON.parse(this.storage.home).menuindex)
-              this.menuindex = JSON.parse(this.storage.home).menuindex
-              this.formatIndex = JSON.parse(this.storage.home).formatIndex
-              this.groupIndex = JSON.parse(this.storage.home).groupIndex
-              this.loadstatus = JSON.parse(this.storage.home).loadstatus
-              this.status = JSON.parse(this.storage.home).status
-            }
 
       // this.$store.commit("SET_STATE")
       // this.$store.dispatch("setState")

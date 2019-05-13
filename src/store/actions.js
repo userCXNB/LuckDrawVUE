@@ -1,11 +1,8 @@
 import * as types from "./types"; 
 
 let action = {
-    setState({commit,state},payload){
-        console.log('actions',payload)
-        let obj = Object.assign({},state.demoData,{'b':payload+'999'})
-        console.log(obj)
-         commit(types.SET_STATE,obj)
+    setWX({commit,state},payload){
+         commit(types.SET_WX,payload)
     },
     setSwitchStatus({commit,state},payload){
          console.log(payload)
@@ -17,7 +14,11 @@ let action = {
     setFrameData({commit,state},payload){
          console.log(payload)
      commit(types.SET_FRAMEDATA,payload)   
-    }
+    },
+    setUserName({commit,state},payload){
+     console.log(payload)
+     commit(types.SET_USERNAME,payload)   
+     }
 
 
 }

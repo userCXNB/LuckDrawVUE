@@ -1,6 +1,6 @@
 <template>
    <div class="set_home_right" style="padding:0px 97px 0 30px;">
-      <div style="font-size:41px;line-height:61px;margin-top:55px;">{{detail.title}}</div>
+      <div style="font-size:30px;line-height:61px;margin-top:55px;">{{detail.title}}</div>
       <el-button plain @click.native="toHref">前往资源</el-button>
       <div style="font-size:15px;line-height:22px;margin:35px 0 48px;color:gray">
         {{detail.notes}}

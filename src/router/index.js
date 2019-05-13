@@ -2,13 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/components/home'
 import homeDetail from '@/components/homeDetail'
+import home1 from '@/components/home1'
+import homeDetail1 from '@/components/homeDetail1'
 import echarts from '@/components/echarts'
 import awesome from '@/components/awesome'
 import main from '@/components/main'
 import login from '@/components/login'
 import bdsjh from '@/components/frame/bdsjh'
 import bdyx from '@/components/frame/bdyx'
-import sfxz from '@/components/frame/sfxz'
+import sfyz from '@/components/frame/sfyz'
+import wxgl from '@/components/frame/wxgl'
 import register from '@/components/register'
 import tab from '@/components/tab'
 import detail from '@/components/detail'
@@ -19,27 +22,45 @@ import content1 from '@/components/content1'
 import accountSettings from '@/components/accountSettings'
 import publish from '@/components/publish'
 import industryEntry from '@/components/industryEntry'
+import reset from '@/components/reset'
+import skip from '@/components/skip'
+import bind from '@/components/bind'
 import industryList from '@/components/industryList'
 import InformationSon from '@/components/InformationSon'
 Vue.use(Router)
 
 export default new Router({
+  // mode: 'history',
   routes: [
     {
       path: '/',
+      name:'main',
       components:{
         default:main,
+        wxgl:wxgl,
       }
     },{
       path: '/contentSon',
       name: 'contentSon',
       component: contentSon
     },{
+      path: '/reset',
+      name: 'reset',
+      component: reset
+    },{
+      path: '/bind',
+      name: 'bind',
+      component: bind
+    },{
+      path: '/skip',
+      name: 'skip',
+      component: skip
+    },{
       path: '/industryList',
       name: 'industryList',
       component: industryList
     },{
-      path: '/industryEntry',
+      path: '/industryEntry/:key',
       name: 'industryEntry',
       component: industryEntry
     },{
@@ -47,22 +68,22 @@ export default new Router({
       name: 'publish',
       component: publish
     },{
-      path: '/login',
+      path: '/login/:type/:unionid',
       name: 'login',
       component: login
     },{
-      path: '/register',
+      path: '/register/:type/:unionid',
       name: 'register',
       component: register
     },{
-      path: '/accountSettings',
+      path: '/accountSettings/:accountSetInit',
       name: 'accountSettings',
       // component: accountSettings,
       components:{
         default:accountSettings,
         bdsjh:bdsjh,
         bdyx:bdyx,
-        sfxz:sfxz,
+        sfyz:sfyz,
       }
     },{
       path: '/content/:name/:code',
@@ -80,21 +101,18 @@ export default new Router({
       path: '/home/:channel',
       name: 'home',
       component: home,
-      // children:[
-      //   {
-      //     path: '/detail',
-      //     name: 'detail',
-      //     component: detail
-      //   },{
-      //     path: '/homeDetail',
-      //     name: 'homeDetail',
-      //     component: homeDetail
-      //   }
-      // ]
     },{
       path: '/homeDetail',
       name: 'homeDetail',
       component: homeDetail
+    },{
+      path: '/home1/:channel',
+      name: 'home1',
+      component: home1,
+    },{
+      path: '/homeDetail1',
+      name: 'homeDetail1',
+      component: homeDetail1
     },{
       path: '/listSon',
       name: 'listSon',

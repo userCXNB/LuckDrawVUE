@@ -1,7 +1,6 @@
 let getters = {
-    getData:(state)=>{
-      console.log('...')
-      return state.demoData
+    getWX:(state)=>{
+      return state.WXcheck
     },
     getSwitchStatus:(state)=>{
       console.log('we')
@@ -12,7 +11,10 @@ let getters = {
     },
     getFrameData:(state)=>{
       return state.frameData
-    }
+    },
+    getUserName:(state)=>{
+      return state.userName
+    },
 };
 
 export default getters;

@@ -1,8 +1,9 @@
 let state = {
-    demoData:{'a':''},
-    switchStatus:{banner:false,menu:false},
+    WXcheck:{name:''},
+    switchStatus:{banner:false,menu:false},//控制banner,menu的显示
     organization:{Ename:"*",name:"China Open Data"},
-    frameData:{name:""}
+    frameData:{name:"wxgl"},//控制弹出框
+    userName:''
 }
 
 export default state;

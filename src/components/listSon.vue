@@ -1,6 +1,6 @@
 <template>
     <li class="list">
-          <div class="title" v-text="data.resources[0].name" @click="switchStatus(data)"></div>
+          <div class="title" v-text="data.title" @click="switchStatus(data)"></div>
           <div>资源方 : {{data.organization.title}}</div>
           <div>数据来源 : {{data.author}}</div>
           <div>数据领域 : {{data.groups[0].title}}</div>

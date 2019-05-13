@@ -85,7 +85,6 @@ export default {
     mounted () {
        this.keyWord = JSON.parse(this.$route.params.channel).keyWord
        this.getPackageData(1)
-       console.log('homedetail')
       // this.$store.commit("SET_STATE")
       // this.$store.dispatch("setState")
     },
@@ -97,6 +96,11 @@ export default {
         window.scrollTo(0,0);
       },
       getPackageData(val){
+      var str = 'title:*'+this.keyWord.split(' ')[0]+'* OR text:*'+this.keyWord.split(' ')[0]+'*'
+        console.log(str)
+        for(var i = 1;i<this.keyWord.split(' ').length;i++){
+              str+=' OR title:*'+this.keyWord.split(' ')[i]+'* OR text:*'+this.keyWord.split(' ')[i]+'*'
+        }
        this.currentPage = 1
           var _that = this
           console.log(_that.menu)
@@ -110,9 +114,9 @@ export default {
           console.log(this.group.name =="China Open Data")
           if(this.group.name == "China Open Data"){
             console.log(this.$route.params.channel)
-           url =  '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=groups:'+_that.menu.Ename+' AND organization:'+JSON.parse(this.$route.params.channel).Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
+           url =  '/ckan/api/3/action/package_search?q='+str+'&fq=groups:'+_that.menu.Ename+' AND organization:'+JSON.parse(this.$route.params.channel).Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
           }else{
-           url =  '/api/api/3/action/package_search?q=title:*'+this.keyWord+'*&fq=groups:'+_that.menu.Ename+' AND organization:'+this.group.Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
+           url =  '/ckan/api/3/action/package_search?q='+str+'&fq=groups:'+_that.menu.Ename+' AND organization:'+this.group.Ename+'&start='+(val-1)*20+'&rows=20&sort='+this.sortName+'+desc'
           }
           this.$axios.get(
             url
