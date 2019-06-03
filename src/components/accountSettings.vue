@@ -9,7 +9,7 @@
                    >{{item.name}}</li>
                </ul>
             </div></el-col>
-        <el-col :span="19"><div class="grid-content">
+        <el-col :span="19"><div class="grid-content" :style="'height:'+mobileHeight+'px'">
                 <h1 style="font-size:21px;color:#42E2C8;">{{accountSettings[accountSetInitNum].name}}</h1>
                 <ul v-if="0 == accountSetInitNum" class="basicData">
                     <li>
@@ -26,7 +26,7 @@
                     </li> 
                     <li>
                          <span class="span">昵称</span>
-                         <el-input style="height:30px!important;;width:273px;" v-model="nickName" placeholder="请输入内容">{{nickName|nullChange}}</el-input>
+                         <el-input style="height:30px!important;;width:273px;" v-model="nickName" @focus="nickOpen()"  placeholder="请输入内容">{{nickName|nullChange}}</el-input>
                     </li>                    
                     <li>
                          <span class="span">个人简介</span>
@@ -106,7 +106,7 @@
                     <li>
                          <span class="span">选择推送方式</span>
                          <template>
-                            <el-radio v-model="email" label="1">邮箱</el-radio>
+                            <el-radio v-model="email" :disabled='!userConfig.email' label="1">邮箱</el-radio>
                          </template>
                     </li>
                     <li>
@@ -128,9 +128,11 @@ export default {
              enterprise:{},
              accountPassword:{},
              informationPush:{},
+             mobileHeight:'',
              nickName:'',
              remark:'',
              email:'',
+             userConfig:{},
              accountSettings:[{name:'基本资料'},{name:'企业资料'},{name:'账号密码'},{name:'信息推送'}],
              accountSetInitNum:-1,
              radio: '',
@@ -176,12 +178,18 @@ export default {
      },
       nickName(){
          let data = new FormData();
+         this.nickName = this.countCharacters(this.nickName,21)
+         var reg = /^[\u4e00-\u9fa5\w]{4,40}$/;
+         console.log(reg.test(this.nickName))
          data.append('nickName',this.nickName);
-         this.$axios.post(
-            '/api/user/nickNameCheck',data
-          ).then((res)=>{
-            console.log(res)
-          })
+         if(reg.test(this.nickName)){
+            this.$axios.post(
+                '/api/user/nickNameCheck',data
+            ).then((res)=>{
+                console.log(res)
+            })
+         }
+
       },
       accountSetInitNum(){
             switch(this.accountSetInitNum){
@@ -191,14 +199,18 @@ export default {
                         ).then((res)=>{
                         this.basicData = res.data.data
                         this.nickName = this.basicData.nickName
-                        this.remark = this.basicData.remark
+                        this.remark = this.basicData.remark == 'null'? '':this.basicData.remark
                         })
                     break;
                 case 1://企业资料
                         this.$axios.get(
                             '/api/company/getCompanyDetail'
                         ).then((res)=>{
+                            res.data.data.name = res.data.data.name == 'null'? '':res.data.data.name;
+                            res.data.data.industry = res.data.data.industry == 'null'? '选项1':res.data.data.industry;
+                            res.data.data.post = res.data.data.post == 'null'? '':res.data.data.post;
                             this.enterprise = res.data.data
+                            
                         })
                     break;
                 case 2://账号密码
@@ -215,6 +227,7 @@ export default {
                             this.informationPush = res.data.data
                             this.radio =  this.informationPush.pullFlag
                             this.email =  this.informationPush.pullConfig[0]
+                            this.userConfig = this.informationPush.userConfigInfo
                         })
                     break;   
                 default:
@@ -223,7 +236,12 @@ export default {
       }
   },
   methods: {
-     ...mapActions(['setFrameData','setWX']),
+     ...mapActions(['setFrameData','setWX','setUserName']),
+     nickOpen(){//提示框
+         this.$message({message:'昵称字数限制： 4-20个字符（包括汉字、数字、字母、下划线，每个汉字为2字符）',
+                  duration:5000     
+         });
+     },
      getBindUrl(){//获取WX跳转接口
          this.setWX('bind')
          this.$axios.get(
@@ -233,6 +251,24 @@ export default {
              window.location.href = res.data.data
          }
       })
+     },
+     countCharacters(str,size){//转换汉字为2个字符,截取字符串
+     var totalCount = 0;  
+     var newStr = ""; 
+     for (var i=0; i<str.length; i++) {   
+         var c = str.charCodeAt(i);//方法可返回指定位置的字符的 Unicode 编码  
+         if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {//判断是否是汉字的编码
+             totalCount++;  
+         }else {     
+             totalCount+=2;  
+         }  
+         if(totalCount<size){ 
+             newStr = str.substring(0,i+1); 
+         }else{ 
+             return newStr; 
+         } 
+     } 
+     return newStr; 
      },
      accountSetEvent(ind){
          console.log(ind)
@@ -246,6 +282,7 @@ export default {
          this.$axios.post(
             '/api/user/updateUserDetail',data
           ).then((res)=>{
+                  this.setUserName(this)
             alert(res.data.data)
           })
     
@@ -278,6 +315,10 @@ export default {
        this.$store.dispatch('setSwitchStatus',{banner:false,menu:false})
        console.log(Number(this.$route.params.accountSetInit))
        this.accountSetInitNum = Number(this.$route.params.accountSetInit)
+
+       var height = document.documentElement.clientHeight;//footer到底部
+       this.mobileHeight = height-152
+
        var that = this
         this.$root.Bus.$on('bdyx', () => {
             that.$axios.get(

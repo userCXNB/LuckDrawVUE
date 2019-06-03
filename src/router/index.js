@@ -23,14 +23,12 @@ import accountSettings from '@/components/accountSettings'
 import publish from '@/components/publish'
 import industryEntry from '@/components/industryEntry'
 import reset from '@/components/reset'
-import skip from '@/components/skip'
-import bind from '@/components/bind'
 import industryList from '@/components/industryList'
 import InformationSon from '@/components/InformationSon'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',
@@ -47,14 +45,6 @@ export default new Router({
       path: '/reset',
       name: 'reset',
       component: reset
-    },{
-      path: '/bind',
-      name: 'bind',
-      component: bind
-    },{
-      path: '/skip',
-      name: 'skip',
-      component: skip
     },{
       path: '/industryList',
       name: 'industryList',

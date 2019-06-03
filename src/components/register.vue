@@ -4,10 +4,10 @@
                <el-row>
                   <el-col :span="24"><div class="grid-content bg-purple-dark">用户注册</div></el-col>
                </el-row>
-               <el-row v-show="$route.params.type !== 'wx'">
+               <el-row>
                   <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
                   <el-col :span="8"><div class="grid-content bg-purple-light">
-                        <input v-model="userName" placeholder="请输入用户名,设置后不可更改"/>
+                        <input v-model="userName" @focus="nickOpen()" placeholder="请输入用户名,设置后不可更改"/>
                         <p>{{userNameCue}}</p>
                      </div></el-col>
                   <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
@@ -32,7 +32,7 @@
                      <el-col :span="8" style="height:30px;"><div class="grid-content bg-purple"></div></el-col>
                      <el-col :span="8" style="text-align:center;border-bottom:1px solid gray;border-radius:0px;"><div class="grid-content bg-purple-light">
                            <input v-model="code" style="border:0;width:50%;" placeholder="请输入验证码"/>
-                           <span style="width:50%;" v-show="show" @click="codeEvent">发送验证码</span>
+                           <span style="width:50%;cursor:pointer" v-show="show" @click="codeEvent">发送验证码</span>
                            <span v-show="!show" class="count">{{count}} s</span>
                            <p>{{codeCue}}</p>
                      </div></el-col>
@@ -105,7 +105,7 @@
                      <el-col :span="4" style="height:.18rem;"><div class="grid-content bg-purple"></div></el-col>
                      <el-col :span="16" style="text-align:center;border-bottom:1px solid gray;border-radius:0px;"><div class="grid-content bg-purple-light">
                            <input v-model="code" style="border:0;width:50%;" placeholder="请输入验证码"/>
-                           <span style="width:50%;" @click="codeEvent">发送验证码</span>
+                           <span style="width:50%;cursor:pointer" @click="codeEvent">发送验证码</span>
                            <p>{{codeCue}}</p>
                      </div></el-col>
                      <el-col :span="4" style="height:.18rem;"><div class="grid-content bg-purple"></div></el-col>
@@ -156,6 +156,7 @@ export default {
   data(){
     return {
         userName:'',
+        mobileHeight:'',
         mobile:'',
         password:'',
         code:'',
@@ -209,18 +210,46 @@ export default {
   },
   methods: {
     ...mapActions(['setUserName','setFrameData']),
+     nickOpen(){
+         console.log(234)
+         this.$message({message:'用户名字数限制： 4-20个字符（包括汉字、数字、字母、下划线，每个汉字为2字符）',
+                  duration:5000     
+         });
+     },
+     countCharacters(str,size){ 
+     var totalCount = 0;  
+     var newStr = ""; 
+     for (var i=0; i<str.length; i++) {  
+         var c = str.charCodeAt(i);  
+         if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {  
+             totalCount++;  
+         }else {     
+             totalCount+=2;  
+         }  
+         if(totalCount<size){ 
+             newStr = str.substring(0,i+1); 
+         }else{ 
+             return newStr; 
+         } 
+     } 
+     return newStr; 
+     },
     userNameCheck:function(){
         let data = new FormData();
          data.append('userName',this.userName);
+         this.userName = this.countCharacters(this.userName,21)
+         var reg = /^[\u4e00-\u9fa5\w]{4,40}$/;
          this.userNameCue = ''
-         this.$axios.post(
-            '/api/user/userNameCheck',data
-          ).then((res)=>{
-            console.log(res)
-            if(res.data.code !== 0){
-             this.userNameCue = res.data.msg
-            }
-          })
+         if(reg.test(this.userName)){
+            this.$axios.post(
+               '/api/user/userNameCheck',data
+            ).then((res)=>{
+               console.log(res)
+               if(res.data.code !== 0){
+               this.userNameCue = res.data.msg
+               }
+            })
+         }
     },
     registerEvent(){
          let data = new FormData();
@@ -266,6 +295,7 @@ export default {
     registerWXEvent(){
        
          let data = new FormData();
+         data.append('userName',this.userName);
          data.append('password', this.$md5.update(this.password).digest('hex'));
          data.append('mobile',this.mobile);
          data.append('code',this.code);
@@ -344,17 +374,17 @@ export default {
                // var width = html.clientWidth;
                html.style.fontSize = 100/(width*0.01) + 'vw';
                 this.configTest = 'mobile'
-                this.mobileHeight = height-151-69
+                this.mobileHeight = height-152
             }else{
                var height = document.documentElement.clientHeight;
-               this.mobileHeight = height-220
+               this.mobileHeight = height-152
                this.configTest = 'pc'
             }
       }.bind(this))()
 
      this.$store.dispatch('setSwitchStatus',{banner:false,menu:false})
      console.log( this.$route.params.type)
-     this.userNameCheckDebounce = this.lodash.debounce(this.userNameCheck, 500)//防抖动
+     this.userNameCheckDebounce = this.lodash.debounce(this.userNameCheck, 100)//防抖动
   }
 }
 </script>

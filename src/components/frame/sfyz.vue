@@ -16,7 +16,8 @@
         <el-row>
             <el-col :span="6" style="height:30px;"><div class="grid-content bg-purple"></div></el-col>
             <el-col :span="12" style="text-align:center;border-bottom:1px solid gray;"><div class="grid-content bg-purple-light">
-                  <input v-model="password" type="password" style="border:0;" placeholder="设置新密码(8-16位)"/>
+                  <input v-model="password" type="password" style="border:0;width:100%;" placeholder="设置新密码(8-16位)"/>
+                  <span>{{passwordCue}}</span>
               </div></el-col>
             <el-col :span="6" style="height:30px;"><div class="grid-content bg-purple"></div></el-col>
         </el-row>
@@ -24,7 +25,7 @@
             <el-col :span="6" style="height:30px;"><div class="grid-content bg-purple"></div></el-col>
             <el-col :span="12" style="text-align:center;border-bottom:1px solid gray;"><div class="grid-content bg-purple-light">
                   <input v-model="code" style="border:0;width:50%;" placeholder="请输入验证码"/>
-                  <span style="width:50%;" v-show="show" @click="codeEvent">发送验证码</span>
+                  <span style="width:50%;cursor:pointer" v-show="show" @click="codeEvent">发送验证码</span>
                   <span v-show="!show" class="count">{{count}} s</span>
               </div></el-col>
             <el-col :span="6" style="height:30px;"><div class="grid-content bg-purple"></div></el-col>
@@ -49,6 +50,7 @@ export default {
     data(){
      return {
          password:'',
+         passwordCue:"",
          code:'',
          mobile:'',
         // centerDialogVisible: true,
@@ -56,6 +58,17 @@ export default {
          count: '',
          timer: null,
         }
+    },
+    watch:{
+            password(){
+            if(8 <= this.password.length & this.password.length <= 16){
+                this.passwordCue = ''
+            let reg=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+                if(!reg.test(this.password)){
+                    this.passwordCue = '格式不正确'
+                }
+            }
+            }
     },
     methods:{
        ...mapActions(['setFrameData']),
@@ -88,15 +101,21 @@ export default {
          data.append('password',this.$md5.update(this.password).digest('hex'));
          data.append('code',this.code);
          if(this.password!==''&this.code!==''){//判断所有输入框不为空
-                this.$axios.post(
-                    '/api/user/changePassword',data
-                ).then((res)=>{
-                    if(res.data.code == 0){
-                        alert(res.data.data)
-                        this.$root.Bus.$emit('sfyz')
-                        this.setFrameData('')
-                    }
-                })
+                if(this.password.length<8||this.password.length>16){//判断密码位数
+                      this.passwordCue = '密码位数有误'
+                  }else{
+                        this.$axios.post(
+                            '/api/user/changePassword',data
+                        ).then((res)=>{
+                            if(res.data.code == 0){
+                                alert(res.data.data)
+                                this.$root.Bus.$emit('sfyz')
+                                this.setFrameData('')
+                            }else{
+                                alert(res.data.msg)
+                            }
+                        })
+                }
          }else{
              alert('输入框不可为空')
          }

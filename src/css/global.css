@@ -15,17 +15,17 @@ textarea{resize:none;}
 }
 
 /*声明 WebFont*/
-@font-face {
+/* @font-face {
     font-family: 'SourceHanSansCN-Bold';
-    src:url('../../static/font/SourceHanSansCN-Bold.ttf') format('truetype');
+    src:url('../../static/font/SourceHanSansCN-Bold.ttf') format('embedded-opentype'); */
     /* font-weight: normal; */
-    font-style: italic;
+    /* font-style: italic;
     color:#888;
   }
   
   body{
     font-family: 'SourceHanSansCN-Bold';
-}
+} */
 
 
   

@@ -48,8 +48,10 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        // exclude: /node_modules/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        query:{presets:['es2015','stage-2']},
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client'), resolve('node_modules/vuex-persist/dist')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

@@ -11,6 +11,7 @@
           <dd style="font-size:14px;line-height:74px;margin-bottom:13px;"><i>来源:{{data.newsFrom}}</i><i style="margin-left:10px;">{{data.publishTime.time|formatDate('yyyy-MM-dd hh:mm:ss')}}</i></dd>
           <!-- <dd><img :src="'/cms/api/info/v1/pic?code='+data.code" style="width:100%;" alt=""></dd> -->
           <dd v-html="data.content"></dd>
+          <el-button plain @click="goback" v-show="configTest=='pc'" style="float:right;margin-top:10px;">返回</el-button>
       </dl>
    </div>
 </template>
@@ -24,7 +25,8 @@ export default {
   },
   data() {
     return {
-      title:'font-size:41px;line-height:61px;'
+      title:'font-size:41px;line-height:61px;',
+      configTest:'pc'
     }
   },
   watch: {
@@ -33,27 +35,31 @@ export default {
   methods: {
     ...mapActions(['setSwitchStatus']),
     ...mapGetters(['getSwitchStatus']),
+    goback(){
+      window.history.go(-1)
+    }
   },
  
   mounted() {
-  this.setSwitchStatus({banner:false,menu:false})
-  //   let data = new FormData();
-  //   data.append('url','http://activity.chinadep.com');
-  //   this.$axios.post(
-  //   '/api/weChat/getSign',data
-  // ).then((res)=>{
-  //   console.log(res)
-  // })
-   var that = this
-  window.scrollTo(0,0);
- 
-      (function isMobile(){
+    (function isMobile(){
         if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
             that.title = 'font-size:20px;line-height:30px;'
-            console.log(that.data)
+            this.configTest = 'mobile'
         }else{
+          console.log(this)
+            this.configTest = 'pc'
+
         }
-    })()
+    }.bind(this))()
+    window.scrollTo({ 
+              top:0, 
+              left:0,
+              behavior: "smooth" 
+          });
+
+    this.setSwitchStatus({banner:false,menu:false})
+
+
 
   }
 }

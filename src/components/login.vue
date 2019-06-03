@@ -242,10 +242,10 @@ export default {
                // var width = html.clientWidth;
                html.style.fontSize = 100/(width*0.01) + 'vw';
                 this.configTest = 'mobile'
-                this.mobileHeight = height-220
+                this.mobileHeight = height-152
             }else{
                var height = document.documentElement.clientHeight;
-               this.mobileHeight = height-220
+               this.mobileHeight = height-152
                this.configTest = 'pc'
             }
       }.bind(this))()

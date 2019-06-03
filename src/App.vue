@@ -2,7 +2,7 @@
   <div>
       <div style="position:fixed;top:75%;right:5px;width:20px;">
           <span class="iconfont icon-zhiding" style="font-size:20px;cursor:pointer;display:inline-block;margin-bottom:10px;" @click="scrollToTop"></span>
-          <!-- <span class="iconfont icon-contact" style="font-size:20px;cursor:pointer;" @click="toPublish"></span> -->
+          <span class="iconfont icon-contact" style="font-size:20px;cursor:pointer;" @click="toPublish"></span>
       </div>
       <nav class="set-nav">        
           <router-link to="/" class="set-logo">
@@ -17,7 +17,7 @@
                 <span class="iconfont icon-zhuce"></span>
                   <router-link :to="{name:'register',params:{type:'pc',unionid:'pc'}}">注册</router-link>
             </li>
-            <li v-show='userName'>
+            <li v-show='userName' style="margin-right:55px;position:relative;top:-12px;">
                 <!-- <el-button type="text" @click="centerDialogVisible = true">8888</el-button> -->
                 <el-dropdown :hide-on-click="false">
                   <div class="el-dropdown-link">
@@ -44,7 +44,7 @@
                   <dd style="font:44px/70px '';margin-top: 240px;" class="font-color">{{watchTitle.name}}<span v-if="watchTitle.name != 'China Open Data'">开放数据</span></dd>
                   <!-- text-shadow:5px 2px 6px #000; -->
                   <div style="margin-bottom:30px;">
-                    <el-input placeholder="请输入内容" v-model="keyWord" class="input-with-select" style="width:500px;" @keyup.native.enter='switchBtn(false)'>
+                    <el-input placeholder="请输入关键字" v-model="keyWord" class="input-with-select" style="width:500px;" @keyup.native.enter='switchBtn(false)'>
                       <el-button slot="append" icon="el-icon-search" style="height:54px;" @click="switchBtn(false)"></el-button>
                     </el-input>
                   </div>
@@ -54,7 +54,7 @@
                            浏览所有数据信息
                          </el-button>
                   </div>
-                  <div style="height:52px;width:1180px;align-self:center;background:#fff;position:absolute;bottom:0px;display:flex">
+                  <div style="height:52px;width:1180px;align-self:center;background:#fff;position:absolute;left:50%;margin-left: -590px;bottom:0px;display:flex">
                         <el-button :style='"industry"==IGtype? "width:50%":"width:50%;background:#52e4cd;"' @click="IGEvent('GOV')">政务</el-button>
                         <el-button :style='"GOV"==IGtype? "width:50%;margin-left:0px;":"width:50%;background:#52e4cd;margin-left:0px;"' @click="IGEvent('industry')">行业</el-button>
                   </div>
@@ -75,7 +75,10 @@
                       </div>
                   </el-menu-item>
           </el-menu>
-          <router-view/>
+          <keep-alive include="main">
+            <!-- include里面是组件name，不是router的name -->
+              <router-view/>
+          </keep-alive> 
           <router-view :name="frameData.name" :centerDialogVisible="true"/>
         </div>
 
@@ -117,19 +120,18 @@ export default {
           ],
         industrycssSRC:[//为了和GOV保持一致不让activeIndex在IG切换时报错
           "../static/images/city/rgzn.jpg) center/100%",
-          "../static/images/city/sx.jpg) center/100%",
-          "../static/images/city/hn.jpg) center/100%",
-          "../static/images/city/gz.jpg) center/100%",
-          "../static/images/city/tj.jpg) center/100%",
-          "../static/images/city/bj.png) center/100%",
           "../static/images/city/sh.png) center/100%",
-          "../static/images/city/gd.jpg) center/100%",
-          // "../static/images/city/cq.png) center/100%",
-          "../static/images/city/sd.png) center/100%",
-          "../static/images/city/hn.png) center/100%",
-          "../static/images/city/wh.png) center/100%",
+          "../static/images/city/tj.jpg) center/100%",
           "../static/images/city/zj.png) center/100%",
-          // "../static/images/city/sz.png) center/100%",
+          "../static/images/city/gd.jpg) center/100%",
+          "../static/images/city/sd.png) center/100%",
+          "../static/images/city/wh.png) center/100%",
+          "../static/images/city/hn.jpg) center/100%",
+          "../static/images/city/sx.jpg) center/100%",
+          "../static/images/city/jx.jpg) center/100%",
+          "../static/images/city/hn.png) center/100%",
+          "../static/images/city/gz.jpg) center/100%",
+          "../static/images/city/gy.jpg) center/100%",
           "../static/images/city/1.jpg) center/100%",
           ],
         activeIndex:13,
@@ -403,16 +405,22 @@ export default {
     justify-content: space-around;
   }
   .el-dropdown-link {
-    width:200px;
+    position: relative;
+    top:12px;
+    left:52px;
+    width:150px;
     cursor: pointer;
     color: #409EFF;
   }
   .el-icon-arrow-down {
     font-size: 12px;
   }
+  .el-dropdown-menu{
+    margin: 12px 0;
+  }
   .set-footer{
     background:#fff;
-    height:106px;
+    // height:106px;
     color:#fff;
     .footer-main{
       height:36px;

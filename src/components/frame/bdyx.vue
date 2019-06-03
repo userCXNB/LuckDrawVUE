@@ -19,7 +19,7 @@
             <el-col :span="6" style="height:30px;"><div class="grid-content bg-purple"></div></el-col>
             <el-col :span="12" style="text-align:center;border-bottom:1px solid gray;"><div class="grid-content bg-purple-light">
                   <input v-model="code" style="border:0;width:50%;" placeholder="请输入验证码"/>
-                  <span style="width:50%;" v-show="show" @click="codeEvent">发送验证码</span>
+                  <span style="width:50%;cursor:pointer" v-show="show" @click="codeEvent">发送验证码</span>
                   <span v-show="!show" class="count">{{count}} s</span>
               </div></el-col>
             <el-col :span="6" style="height:30px;"><div class="grid-content bg-purple"></div></el-col>

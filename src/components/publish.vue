@@ -55,7 +55,6 @@
                     <li>
                         <span class="span"><span style="color:red;">*</span>联系方式:</span>
                         <el-input v-model='mobile' style="height:30px!important;width:50%;" placeholder="请输入您的联系方式,邮箱或电话"></el-input>
-                        <p style="margin-left:104px;">{{mobileCue}}</p>
                     </li>
                     <li style="padding-left:20%;">
                         <el-button type="primary" @click="publishEvent" :disabled="!show">提交</el-button>
@@ -84,20 +83,9 @@ export default {
     }
   },
   watch: {
-    mobile(){
-       if(this.mobile.length == 11){
-         this.mobileCue = ''
-       let reg = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
-          if(!reg.test(this.mobile)){
-             this.mobileCue = '请输入正确的手机号'
-          }
-       }
-
-    },
   },
   methods: {
-        publishEvent(){
-              
+        publishEvent(){       
          let data = new FormData();
          data.append('resourceName',this.resourceName);
          data.append('detail',this.detail);
@@ -106,9 +94,6 @@ export default {
          data.append('name',this.name);
          data.append('mobile',this.mobile);
           if(this.resourceName!==''&this.detail!==''&this.name!==''&this.mobile!==''){//判断所有输入框不为空
-              if(this.mobile.length<11||this.mobile.length>11){//判断手机号位数
-                  this.mobileCue = '手机号位数有误'    
-              }else{
                     this.show = false
                     this.$axios.post(
                         '/api/request/commitRequest',data
@@ -116,12 +101,17 @@ export default {
                         if(res.data.code == 0){
                             alert(res.data.data)
                             this.show=true
+                            this.resourceName=''
+                            this.detail=''
+                            this.useWay=''
+                            this.company=''
+                            this.name=''
+                            this.mobile=''
                         }else{
                             alert('提交失败')
                             this.show=true
                         }
-                    })
-              }     
+                    })     
           }else{
               alert('请填完所有必选项')
           }

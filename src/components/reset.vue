@@ -1,6 +1,6 @@
 <template>
    <div>
-         <div style="text-align:center;" v-if="configTest == 'pc'">
+         <div :style="'text-align:center;height:'+mobileHeight+'px'" v-if="configTest == 'pc'">
                <el-row>
                   <el-col :span="24"><div class="grid-content bg-purple-dark">重置密码</div></el-col>
                </el-row>
@@ -24,7 +24,7 @@
                   <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
                   <el-col :span="8" style="text-align:center;border-bottom:1px solid gray;border-radius:0px;"><div class="grid-content bg-purple-light">
                      <input v-model="code" style="border:0;width:50%;" placeholder="请输入验证码"/>
-                     <span style="width:50%;" v-show="show" @click="codeEvent">发送验证码</span>
+                     <span style="width:50%;cursor:pointer" v-show="show" @click="codeEvent">发送验证码</span>
                      <span v-show="!show" class="count">{{count}} s</span>
                      </div></el-col>
                   <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
@@ -63,7 +63,7 @@
                   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
                   <el-col :span="12" style="text-align:center;border-bottom:1px solid gray;border-radius:0px;"><div class="grid-content bg-purple-light">
                      <input v-model="code" style="border:0;width:50%;" placeholder="请输入验证码"/>
-                     <span style="width:50%;" @click="codeEvent">发送验证码</span>
+                     <span style="width:50%;cursor:pointer" @click="codeEvent">发送验证码</span>
                      <p>{{codeCue}}</p>
                      </div></el-col>
                   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
@@ -83,12 +83,14 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
 export default {
   data(){
     return {
         mobile:'',
         mobileCue:'',
         password:'',
+        mobileHeight:'',
         passwordCue:'',
         code:'',
         codeCue:'',
@@ -131,6 +133,7 @@ export default {
     }
   },
   methods: {
+       ...mapActions(['setUserName']),
         codeEvent(){
             if(this.mobile.length<11||this.mobile.length>11){
                this.mobileCue = '请输入正确的手机号'
@@ -163,6 +166,7 @@ export default {
       },
         resetEvent(){
          let data = new FormData();
+         data.append('userName',this.mobile);
          data.append('mobile',this.mobile);
          data.append('password', this.$md5.update(this.password).digest('hex'));
          data.append('code',this.code);
@@ -181,7 +185,14 @@ export default {
                               ).then((res)=>{
                                  if(res.data.code == 0){
                                        alert(res.data.data)
-                                      this.$router.push({name:'main'})//重置成功到首页
+
+                                       this.$axios.post(
+                                                   '/api/login/do_login',data
+                                                ).then((res)=>{
+                                                   this.setUserName(this)
+                                                   this.$router.push({name:'main'})//重置成功到首页
+                                                })
+
                                  }else{
                                       this.msgCue = res.data.msg
                                  }
@@ -210,8 +221,10 @@ export default {
                // var width = html.clientWidth;
                html.style.fontSize = 100/(width*0.01) + 'vw';
                 this.configTest = 'mobile'
-                this.mobileHeight = height-151-69
+                this.mobileHeight = height-152
             }else{
+               var height = document.documentElement.clientHeight;
+               this.mobileHeight = height-152
                this.configTest = 'pc'
             }
       }.bind(this))()

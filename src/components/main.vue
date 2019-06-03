@@ -60,6 +60,7 @@ import infiniteScroll from 'vue-infinite-scroll'
 import InformationSon from '@/components/InformationSon'
 var count = 0;
 export default {
+    name:'main',
     components:{
         InformationSon
     },

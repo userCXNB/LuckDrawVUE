@@ -1,6 +1,10 @@
 <template>
   <div style="padding-bottom:20px;">
-      <div id="qrcode" style="position:absolute;right:0px;"></div>
+      <div v-show="configTest=='pc'" style="position:fixed;right:0px;padding:5px;background:#fff;width:132px;">
+           <span style="font-size:10px;">分享到微信</span>
+           <div id="qrcode"></div>
+           <span style="display:inline-block;font:9px/12px ''!important;margin-top:5px;color:gray;">用微信"扫一扫",点击右上角分享按钮,即可将网页分享给您的微信好友或朋友圈</span>
+      </div>
       <contentSon :width="width" :data='contentSonData'></contentSon> 
       <!-- <p style="font-size:27px;text-indent:75px;">相关资讯</p> -->
       <InformationSon></InformationSon>
@@ -22,7 +26,8 @@ export default {
   data(){
     return {
       width:'auto',
-      contentSonData:{}
+      contentSonData:{},
+      configTest:'pc'
     }
   },
   watch: {
@@ -41,7 +46,7 @@ export default {
       })
     },
     init(data,imgurl,title,summery){
-        
+        //(从后端拿的wx配置参数,缩略图,标题,介绍)
           wx.config({
               debug:false,
               appId:data.appId,		        //必填，公众号唯一标识
@@ -51,29 +56,21 @@ export default {
               jsApiList:['onMenuShareTimeline','onMenuShareAppMessage']	   //必填，需要使用的JS接口列表 
           });
           wx.error((res)=>{
-              for(let msg in res){
-                let obj = {
-                    show:true,
-                    msg:JSON.stringify(res[msg]),
-                    err:""
-                }
-                this.$store.commit("ci/SETHOMEALERT",obj);
-              }
+            // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+            alert("errorMSG:"+res);
           });
-          console.log(imgurl.replace("\"", "").replace("\"", "")=="http://cf.dtcj.com/6fc22ca2-ef58-4e29-9775-fd53d1ce4150.jpg")
-          console.log()
           wx.ready(()=>{
-              wx.onMenuShareTimeline({
-                  title:title,     
-                  // link:this.share.link,
-                  desc:summery,
-                  imgUrl:imgurl.replace("\"", "").replace("\"", ""),
+              wx.onMenuShareTimeline({//分享到朋友圈
+                  title:title,//标题   
+                  // link:this.share.link,// 分享链接,将当前登录用户转为puid,以便于发展下线，不写默认为当前地址
+                  desc:summery,//介绍
+                  imgUrl:imgurl.replace("\"", "").replace("\"", ""),//因地址前后有"需去掉，为小缩略图
                   success: function (res){
                       console.log("onMenuShareTimeline res",res);
                   },
                   cancel:function(){}    //取消分享后执行的回调函数
               })
-              wx.onMenuShareAppMessage({
+              wx.onMenuShareAppMessage({//分享给朋友
                   title:title ,
                   // link:this.share.link,
                   desc:summery,
@@ -88,8 +85,14 @@ export default {
    },
  
   mounted() {
-       this.qrcode();
-    console.log(wx)
+    (function(){
+            if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+                this.configTest = 'mobile'
+            }else{
+               this.configTest = 'pc'
+            }
+      }.bind(this))()
+        this.qrcode();
         var _that = this
         this.$axios.get('/cms/api/info/v1/newsDetail?code='+this.$route.params.code)
         .then((res)=>{
@@ -100,16 +103,16 @@ export default {
              document.title = _that.contentSonData.title
              var title = res.data.title 
              var summery = res.data.summery 
+
               var str = res.data.content//content里面获取第一张照片地址
-              var imgReg = /<img.*?(?:>|\/>)/gi;
-              var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-              var imgurl = str.match(srcReg)[0]
+            //   var imgReg = /<img.*?(?:>|\/>)/gi;//匹配所以img标签
+              var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;//匹配所有的src里面的地址
+              var imgurl = str.match(srcReg)[0]//拿到第一个src='http://xxxxxx'
 
               let data = new FormData();
               data.append('url',window.location.href);
-              this.$axios.post('/api/weChat/getSign',data)
+              this.$axios.post('/api/weChat/getSign',data)//把当前地址传给后端
               .then((res)=>{
-                        console.log(res)
                         this.init(res.data.data,imgurl.split('=')[1],title,summery)
             })
 
@@ -123,13 +126,4 @@ export default {
 </script>
  
 <style lang="less" scoped>
-#qrcode {
-    display: inline-block;
-    img {
-      width: 132px;
-      height: 132px;
-      background-color: #fff; //设置白色背景色
-      padding: 6px; // 利用padding的特性，挤出白边
-    }
-  }
 </style>
